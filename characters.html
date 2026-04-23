@@ -3,10 +3,341 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Meet Ella Dekker and the Intrepid Pro team — the full character roster for the YA sci-fi series.">
   <title>Characters — Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* STAR FIELD */
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  }
+  .series-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent-teal);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .title span { color: var(--accent-gold); }
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--accent-teal);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* PROTAGONIST CARD */
+  .protagonist-section { margin-bottom: 48px; }
+
+  .protagonist-card {
+    background: linear-gradient(135deg, #0d1e35 0%, #091525 100%);
+    border: 1px solid rgba(240,192,64,0.4);
+    border-radius: 4px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(240,192,64,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+    animation: fadeSlideIn 0.6s ease forwards;
+  }
+  .protagonist-card::before {
+    content: 'PROTAGONIST';
+    position: absolute;
+    top: 16px; right: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    opacity: 0.6;
+  }
+  .protagonist-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--accent-gold);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .id-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 80px;
+  }
+  .avatar-ring {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent-gold);
+    background: rgba(240,192,64,0.08);
+    box-shadow: 0 0 20px rgba(240,192,64,0.15);
+    flex-shrink: 0;
+  }
+  .avatar-ring.blue { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(64,160,240,0.08); box-shadow: 0 0 20px rgba(64,160,240,0.15); }
+  .avatar-ring.teal { border-color: var(--accent-teal); color: var(--accent-teal); background: rgba(48,208,192,0.08); box-shadow: 0 0 20px rgba(48,208,192,0.15); }
+  .avatar-ring.red { border-color: var(--accent-red); color: var(--accent-red); background: rgba(224,80,80,0.08); box-shadow: 0 0 20px rgba(224,80,80,0.15); }
+
+  .id-number {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  .card-main { display: flex; flex-direction: column; gap: 10px; }
+
+  .name-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .char-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+  .char-nickname {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-gold);
+  }
+  .char-nickname.blue { color: var(--accent-blue); }
+  .char-nickname.teal { color: var(--accent-teal); }
+
+  .meta-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-label);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-pill .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    flex-shrink: 0;
+  }
+  .meta-pill .dot.blue { background: var(--accent-blue); }
+  .meta-pill .dot.teal { background: var(--accent-teal); }
+
+  .role-tag {
+    display: inline-block;
+    background: rgba(240,192,64,0.12);
+    border: 1px solid rgba(240,192,64,0.25);
+    color: var(--accent-gold);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+  .role-tag.blue { background: rgba(64,160,240,0.12); border-color: rgba(64,160,240,0.25); color: var(--accent-blue); }
+  .role-tag.teal { background: rgba(48,208,192,0.12); border-color: rgba(48,208,192,0.25); color: var(--accent-teal); }
+  .role-tag.red { background: rgba(224,80,80,0.12); border-color: rgba(224,80,80,0.25); color: var(--accent-red); }
+  .role-tag.multi { display: flex; gap: 8px; flex-wrap: wrap; background: none; border: none; padding: 0; }
+  .role-tag.multi span { display: inline-block; padding: 3px 10px; border-radius: 2px; font-family: 'Orbitron', sans-serif; font-size: 9px; letter-spacing: 2px; }
+
+  .bio {
+    font-size: 13px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text-label);
+    line-height: 1.7;
+    border-left: 2px solid var(--border);
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+
+  /* TEAM GRID */
+  .team-section { margin-bottom: 24px; }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .member-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 22px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    animation: fadeSlideIn 0.6s ease forwards;
+  }
+  .member-card:hover {
+    border-color: rgba(64,160,240,0.4);
+    box-shadow: 0 0 24px rgba(64,160,240,0.06);
+  }
+  .member-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent-blue);
+    border-radius: 4px 0 0 4px;
+    opacity: 0.7;
+  }
+  .member-card.teal-accent::after { background: var(--accent-teal); }
+  .member-card.red-accent::after { background: var(--accent-red); }
+
+  .member-id {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-width: 56px;
+  }
+  .member-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-blue);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--accent-blue);
+    background: rgba(64,160,240,0.08);
+    flex-shrink: 0;
+  }
+  .member-avatar.teal { border-color: var(--accent-teal); color: var(--accent-teal); background: rgba(48,208,192,0.08); }
+  .member-avatar.red { border-color: var(--accent-red); color: var(--accent-red); background: rgba(224,80,80,0.08); }
+  .member-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px; color: var(--text-dim); letter-spacing: 1px;
+  }
+
+  .member-info { display: flex; flex-direction: column; gap: 7px; }
+  .member-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #fff; letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .member-name .nick {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-teal);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+  .member-meta {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .m-pill {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px; letter-spacing: 1.5px;
+    color: var(--text-dim);
+  }
+  .member-role {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+  }
+  .member-role.teal { color: var(--accent-teal); }
+  .member-role.red { color: var(--accent-red); }
+  .member-bio {
+    font-size: 11px; font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.65;
+    margin-top: 2px;
+  }
+
+  /* FOOTER NOTE */
+  .org-block {
+    margin-top: 48px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #0a1520, #080e18);
+    position: relative;
+  }
+  .org-block::before {
+    content: 'FIELD NOTES';
+    position: absolute; top: -8px; left: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--accent-teal);
+    background: var(--void);
+    padding: 0 8px;
+  }
+  .org-block p {
+    font-size: 12px; font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+  .org-block p + p { margin-top: 10px; }
+  .org-block strong { color: var(--text-primary); font-weight: 600; }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .protagonist-card { grid-template-columns: 1fr; }
+    .id-block { flex-direction: row; }
+  }
+  </style>
 </head>
 <body>
+
 <div class="page-wrap">
 
   <header class="header">

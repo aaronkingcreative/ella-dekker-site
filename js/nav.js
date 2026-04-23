@@ -14,7 +14,7 @@
     { href: 'characters.html',  label: 'Characters' },
     { href: 'districts.html',   label: 'The Intrepid' },
     { href: 'settlements.html', label: 'First Reach' },
-    { href: 'book.html',        label: 'Book One' },
+    { href: 'about.html',        label: 'About' },
     { href: 'beta.html',        label: 'Beta Readers', cta: true },
   ];
 

@@ -42,13 +42,13 @@
   --font-mono:      'Share Tech Mono', monospace;
   --font-body:      'Exo 2', sans-serif;
 
-  --text-xs:        11px;
-  --text-sm:        13px;
-  --text-base:      15px;
-  --text-md:        16px;
-  --text-lg:        18px;
-  --text-xl:        22px;
-  --text-2xl:       28px;
+  --text-xs:        12px;
+  --text-sm:        14px;
+  --text-base:      16px;
+  --text-md:        17px;
+  --text-lg:        20px;
+  --text-xl:        24px;
+  --text-2xl:       30px;
   --text-3xl:       36px;
 
   /* Layout */
@@ -179,8 +179,8 @@ body::before {
 
 .nav-links a {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
   color: var(--text-label);
   text-decoration: none;
   padding: 8px 14px;
@@ -563,8 +563,8 @@ body::before {
   :root {
     --page-padding: 16px;
     --section-gap:  40px;
-    --text-base:    16px;
-    --text-md:      17px;
+    --text-base:    17px;
+    --text-md:      18px;
   }
 
   .page-wrap { padding: 32px var(--page-padding) 60px; }

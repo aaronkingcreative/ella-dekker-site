@@ -3,10 +3,342 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="The six districts of the Intrepid space settlement — anatomy, physics, vocabulary, and world bible.">
   <title>Station Districts — Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* ── HEADER ── */
+  .header {
+    text-align: center; margin-bottom: 48px; padding-bottom: 32px;
+    border-bottom: 1px solid var(--border); position: relative;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  }
+  .series-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 11px;
+    letter-spacing: 4px; color: var(--accent-teal); margin-bottom: 12px;
+  }
+  .title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(20px, 4vw, 38px); font-weight: 900;
+    letter-spacing: 2px; color: #fff; margin-bottom: 6px;
+  }
+  .title span { color: var(--accent-gold); }
+  .subtitle { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 3px; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'Orbitron', sans-serif; font-size: 10px;
+    letter-spacing: 5px; color: var(--accent-teal); text-transform: uppercase;
+    margin-bottom: 20px; margin-top: 48px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ── STATION ANATOMY OVERVIEW ── */
+  .anatomy-card {
+    background: var(--panel);
+    border: 1px solid rgba(240,192,64,0.3);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(240,192,64,0.04);
+  }
+  .anatomy-card::before {
+    content: 'STATION ANATOMY';
+    position: absolute; top: -8px; left: 20px;
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; color: var(--accent-gold);
+    background: var(--void); padding: 0 10px;
+  }
+
+  .anatomy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .anatomy-item {
+    border-left: 2px solid var(--border);
+    padding-left: 14px;
+  }
+  .anatomy-item-title {
+    font-family: 'Orbitron', sans-serif; font-size: 10px;
+    letter-spacing: 2px; color: var(--accent-gold);
+    margin-bottom: 6px; text-transform: uppercase;
+  }
+  .anatomy-item-title.blue { color: var(--accent-blue); }
+  .anatomy-item-title.teal { color: var(--accent-teal); }
+  .anatomy-item p {
+    font-size: 12px; font-weight: 300; color: var(--text-dim); line-height: 1.7;
+  }
+
+  .anatomy-divider {
+    height: 1px; background: var(--border); margin: 20px 0;
+  }
+  .anatomy-prose {
+    font-size: 13px; font-weight: 300; color: var(--text-dim);
+    line-height: 1.85; columns: 2; gap: 32px;
+  }
+  .anatomy-prose strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ── RINGS PANEL ── */
+  .rings-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-bottom: 48px;
+  }
+  .ring-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; padding: 18px 20px;
+    position: relative; overflow: hidden;
+  }
+  .ring-card::after {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+  .ring-card.living::after   { background: var(--accent-blue); }
+  .ring-card.cult::after     { background: var(--accent-green); }
+  .ring-card.light::after    { background: var(--accent-gold); }
+  .ring-swatch {
+    width: 32px; height: 12px; border-radius: 2px; margin-bottom: 12px;
+  }
+  .ring-swatch.living   { background: rgba(64,160,240,0.5); border: 1px solid var(--accent-blue); }
+  .ring-swatch.cult     { background: rgba(80,208,120,0.5); border: 1px solid var(--accent-green); }
+  .ring-swatch.light    { background: rgba(240,192,64,0.5);  border: 1px solid var(--accent-gold); }
+  .ring-name {
+    font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
+    color: #fff; letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .ring-desc {
+    font-size: 11px; font-weight: 300; color: var(--text-dim); line-height: 1.65;
+  }
+
+  /* ── PORT PANEL ── */
+  .ports-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-bottom: 48px;
+  }
+  .port-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; padding: 18px 20px; position: relative; overflow: hidden;
+  }
+  .port-card::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+  }
+  .port-kaku::after    { background: var(--accent-gold); }
+  .port-oort::after    { background: var(--accent-blue); }
+  .port-cannon::after  { background: var(--accent-red); }
+  .port-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; margin-bottom: 6px;
+  }
+  .port-kaku   .port-label { color: var(--accent-gold); }
+  .port-oort   .port-label { color: var(--accent-blue); }
+  .port-cannon .port-label { color: var(--accent-red); }
+  .port-name {
+    font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;
+    color: #fff; letter-spacing: 0.5px; margin-bottom: 8px;
+  }
+  .port-desc {
+    font-size: 11px; font-weight: 300; color: var(--text-dim); line-height: 1.65;
+  }
+
+  /* ── DISTRICT CARDS ── */
+  .district-card {
+    border-radius: 4px; overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    animation: fadeSlideIn 0.5s ease forwards;
+  }
+
+  .district-header {
+    display: grid;
+    grid-template-columns: 6px 1fr auto;
+    align-items: stretch;
+  }
+  .district-bar { width: 6px; }
+  .district-header-inner {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 24px; background: rgba(10,16,28,0.9);
+    border-bottom: 1px solid var(--border);
+  }
+  .district-badge-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .district-badge {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 900;
+    letter-spacing: 1px; flex-shrink: 0;
+    border: 2px solid;
+  }
+  .district-num {
+    font-family: 'Share Tech Mono', monospace; font-size: 8px;
+    color: var(--text-dim); letter-spacing: 1px;
+  }
+  .district-title-block { flex: 1; }
+  .district-name {
+    font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900;
+    color: #fff; letter-spacing: 2px; line-height: 1;
+  }
+  .district-honoree {
+    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    color: var(--text-label); letter-spacing: 2px; margin-top: 4px;
+  }
+  .district-zone-tag {
+    font-family: 'Orbitron', sans-serif; font-size: 9px;
+    letter-spacing: 3px; padding: 4px 12px; border-radius: 2px;
+    border: 1px solid; text-transform: uppercase; align-self: center;
+    margin-right: 24px;
+  }
+
+  .district-
+
+  .district-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;
+  }
+
+  .honoree-block {
+    border-left: 2px solid var(--border); padding-left: 14px;
+  }
+  .honoree-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; color: var(--accent-teal); margin-bottom: 8px;
+  }
+  .honoree-name {
+    font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;
+    color: #fff; margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .honoree-bio {
+    font-size: 11px; font-weight: 300; color: var(--text-dim); line-height: 1.7;
+  }
+
+  .features-block { }
+  .features-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; color: var(--accent-teal); margin-bottom: 10px;
+  }
+  .feature-list { display: flex; flex-direction: column; gap: 6px; }
+  .feature-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12px; font-weight: 300; color: var(--text-dim); line-height: 1.5;
+  }
+  .feature-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 5px;
+  }
+
+  .district-flavor {
+    font-size: 12px; font-weight: 300; font-style: italic;
+    color: var(--text-dim); line-height: 1.75;
+    border-top: 1px solid var(--border); padding-top: 16px;
+  }
+  .district-flavor strong { color: var(--text-label); font-weight: 400; font-style: normal; }
+
+  .writer-note {
+    margin-top: 12px; padding: 8px 14px;
+    background: rgba(240,192,64,0.04);
+    border-left: 2px solid rgba(240,192,64,0.25);
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 1px; color: rgba(240,192,64,0.55); line-height: 1.6;
+  }
+  .writer-note span { color: rgba(240,192,64,0.8); }
+
+  /* District-specific color themes */
+  .d-payne .district-bar      { background: var(--payne); }
+  .d-payne .district-badge    { border-color: var(--payne); color: var(--payne); background: rgba(112,96,192,0.1); }
+  .d-payne .district-zone-tag { color: var(--payne); border-color: rgba(112,96,192,0.3); background: rgba(112,96,192,0.06); }
+  .d-payne .feature-dot       { background: var(--payne); }
+
+  .d-kaku .district-bar       { background: var(--kaku); }
+  .d-kaku .district-badge     { border-color: var(--kaku); color: var(--kaku); background: rgba(240,128,64,0.1); }
+  .d-kaku .district-zone-tag  { color: var(--kaku); border-color: rgba(240,128,64,0.3); background: rgba(240,128,64,0.06); }
+  .d-kaku .feature-dot        { background: var(--kaku); }
+
+  .d-oort .district-bar       { background: var(--oort); }
+  .d-oort .district-badge     { border-color: var(--oort); color: var(--oort); background: rgba(64,168,224,0.1); }
+  .d-oort .district-zone-tag  { color: var(--oort); border-color: rgba(64,168,224,0.3); background: rgba(64,168,224,0.06); }
+  .d-oort .feature-dot        { background: var(--oort); }
+
+  .d-cannon .district-bar      { background: var(--cannon); }
+  .d-cannon .district-badge    { border-color: var(--cannon); color: var(--cannon); background: rgba(192,48,48,0.1); }
+  .d-cannon .district-zone-tag { color: var(--cannon); border-color: rgba(192,48,48,0.3); background: rgba(192,48,48,0.06); }
+  .d-cannon .feature-dot       { background: var(--cannon); }
+
+  .d-fraunhofer .district-bar      { background: var(--fraunhofer); }
+  .d-fraunhofer .district-badge    { border-color: var(--fraunhofer); color: var(--fraunhofer); background: rgba(64,184,112,0.1); }
+  .d-fraunhofer .district-zone-tag { color: var(--fraunhofer); border-color: rgba(64,184,112,0.3); background: rgba(64,184,112,0.06); }
+  .d-fraunhofer .feature-dot       { background: var(--fraunhofer); }
+
+  .d-herschel .district-bar      { background: var(--herschel); }
+  .d-herschel .district-badge    { border-color: var(--herschel); color: var(--herschel); background: rgba(192,80,48,0.1); }
+  .d-herschel .district-zone-tag { color: var(--herschel); border-color: rgba(192,80,48,0.3); background: rgba(192,80,48,0.06); }
+  .d-herschel .feature-dot       { background: var(--herschel); }
+
+  /* ── STATION WALK BOX ── */
+  .station-walk {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 4px; padding: 24px 28px; margin-top: 48px;
+    position: relative;
+  }
+  .station-walk::before {
+    content: 'WALKING THE RING';
+    position: absolute; top: -8px; left: 20px;
+    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    letter-spacing: 3px; color: var(--accent-teal);
+    background: var(--void); padding: 0 10px;
+  }
+  .station-walk p {
+    font-size: 13px; font-weight: 300; color: var(--text-dim);
+    line-height: 1.85; margin-bottom: 14px;
+  }
+  .station-walk p:last-child { margin-bottom: 0; }
+  .station-walk strong { color: var(--text-primary); font-weight: 600; }
+  .station-walk em { color: var(--accent-teal); font-style: normal; }
+
+  /* district sequence strip */
+  .ring-sequence {
+    display: flex; align-items: center; gap: 0;
+    margin: 20px 0; overflow-x: auto; padding-bottom: 4px;
+  }
+  .seq-item {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 10px 14px; border: 1px solid var(--border);
+    border-right: none; flex-shrink: 0;
+    background: rgba(10,16,28,0.8);
+  }
+  .seq-item:last-child { border-right: 1px solid var(--border); }
+  .seq-dot { width: 10px; height: 10px; border-radius: 50%; margin-bottom: 6px; }
+  .seq-name {
+    font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; color: #fff;
+  }
+  .seq-zone {
+    font-family: 'Share Tech Mono', monospace; font-size: 8px;
+    color: var(--text-dim); letter-spacing: 1px; margin-top: 3px;
+  }
+  .seq-arrow {
+    font-size: 14px; color: var(--text-dim);
+    padding: 0 4px; flex-shrink: 0;
+  }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 700px) {
+    .anatomy-grid { grid-template-columns: 1fr; }
+    .anatomy-prose { columns: 1; }
+    .rings-row, .ports-row { grid-template-columns: 1fr; }
+    .district-cols { grid-template-columns: 1fr; }
+    .district-name { font-size: 16px; }
+  }
+  </style>
 </head>
 <body>
+
 <div class="page-wrap">
 
   <!-- HEADER -->

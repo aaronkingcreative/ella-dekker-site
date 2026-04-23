@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Aaron King — storyteller, YouTuber, podcaster, photographer, and the author of Ella Dekker & Intrepid Pro.">
+  <title>About — Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 56px;
+      align-items: start;
+      margin-bottom: var(--section-gap);
+    }
+
+    /* Photo block */
+    .photo-block {
+      position: sticky;
+      top: calc(var(--nav-height) + 24px);
+    }
+
+    .photo-frame {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* CSS filter to match the dark sci-fi aesthetic */
+      filter: grayscale(40%) contrast(1.1) brightness(0.9) saturate(0.7);
+      display: block;
+    }
+
+    /* Teal overlay tint */
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(5, 8, 16, 0.7) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Gold accent bar top */
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
+      z-index: 2;
+    }
+
+    .photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 40px;
+      text-align: center;
+      color: var(--text-dim);
+    }
+
+    .photo-placeholder-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--accent-gold);
+    }
+
+    .photo-caption {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .photo-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .photo-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Bio block */
+    .bio-block {}
+
+    .bio-block .page-header {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .bio-block .page-header::after {
+      left: 0;
+      transform: none;
+    }
+
+    .bio-text {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+
+    .bio-text strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .bio-text em {
+      color: var(--accent-teal);
+      font-style: normal;
+    }
+
+    /* Role tags */
+    .role-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 32px 0;
+    }
+
+    .role-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 3px;
+      padding: 6px 14px;
+      background: rgba(240,192,64,0.05);
+      text-transform: uppercase;
+    }
+
+    /* Links section */
+    .links-section {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .links-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .ext-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ext-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .ext-link:hover {
+      border-color: var(--accent-teal);
+      background: rgba(48,208,192,0.05);
+    }
+
+    .ext-link-label {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .ext-link-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .ext-link-arrow {
+      margin-left: auto;
+      color: var(--accent-teal);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Book origin section */
+    .origin-card {
+      background: linear-gradient(135deg, #0d1e35, #091525);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 4px;
+      padding: 32px;
+      margin-top: 40px;
+      position: relative;
+    }
+
+    .origin-card::before {
+      content: 'THE BOOK\'S ORIGIN';
+      position: absolute;
+      top: -9px;
+      left: 20px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent-gold);
+      background: var(--void);
+      padding: 0 10px;
+    }
+
+    .origin-text {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.85;
+    }
+
+    .origin-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1023px) {
+      .about-layout {
+        grid-template-columns: 260px 1fr;
+        gap: 36px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .about-layout {
+        grid-template-columns: 1fr;
+      }
+      .photo-block {
+        position: static;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+      .bio-block .page-header {
+        text-align: center;
+      }
+      .bio-block .page-header::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .role-tags { justify-content: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <div class="about-layout">
+
+      <!-- PHOTO -->
+      <div class="photo-block">
+        <div class="photo-frame">
+          <img src="img/author.jpg" alt="Aaron King">
+        </div>
+        <div class="photo-caption">
+          <div class="photo-name">Aaron King</div>
+          <div class="photo-title">Author · Storyteller<br>Utah, USA</div>
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <div class="bio-block">
+
+        <header class="page-header">
+          <p class="page-eyebrow">The Author</p>
+          <h1 class="page-title">Aaron <span>King</span></h1>
+        </header>
+
+        <div class="role-tags">
+          <span class="role-tag">Storyteller</span>
+          <span class="role-tag">YouTuber</span>
+          <span class="role-tag">Podcaster</span>
+          <span class="role-tag">Photographer</span>
+        </div>
+
+        <p class="bio-text">
+          Aaron King is a storyteller, YouTuber, podcaster, and photographer based in Utah.
+          He is the creator of <strong>Photog Adventures</strong>, where he has spent the past decade
+          teaching Milky Way photography through YouTube, podcasting, and in-person workshops.
+        </p>
+
+        <p class="bio-text">
+          Before that, Aaron worked in the video game industry — including years at
+          <strong>Disney</strong> working on <em>Disney Infinity</em>.
+        </p>
+
+        <div class="origin-card">
+          <p class="origin-text">
+            The idea for this book arrived on a train to <strong>Maastricht</strong> in 2001, during two years
+            Aaron spent in the Netherlands as a missionary — years that left him fluent in Dutch,
+            deeply fond of the country, and full of a story he couldn't shake. The original concept
+            featured a Dutch boy named Joop and a windmill headquarters. Over two decades of
+            development, Joop became <strong>Ella Dekker</strong>, the windmill became a space station,
+            and the story became something much larger. The Dutch roots remained. They always will.
+          </p>
+        </div>
+
+        <div class="links-section">
+          <div class="links-label">Find Aaron Online</div>
+          <div class="ext-links">
+            <a href="https://www.youtube.com/@PhotogAdventures" target="_blank" rel="noopener" class="ext-link">
+              <div>
+                <div class="ext-link-label">Photog Adventures</div>
+                <div class="ext-link-sub">YouTube · Milky Way Photography</div>
+              </div>
+              <span class="ext-link-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

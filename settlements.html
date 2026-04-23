@@ -97,11 +97,11 @@
   }
   .body-title-wrap { flex: 1; }
   .body-name {
-    font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700;
+    font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 700;
     color: #fff; letter-spacing: 1px;
   }
   .body-subtitle {
-    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    font-family: 'Share Tech Mono', monospace; font-size: 13px;
     color: var(--text-dim); letter-spacing: 2px; margin-top: 3px;
   }
   .body-distance {
@@ -155,11 +155,11 @@
 
   .station-info { display: flex; flex-direction: column; gap: 3px; }
   .station-name {
-    font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
+    font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700;
     color: var(--text-primary); letter-spacing: 0.5px;
   }
   .station-detail {
-    font-family: 'Exo 2', sans-serif; font-size: 11px; font-weight: 300;
+    font-family: 'Exo 2', sans-serif; font-size: 14px; font-weight: 300;
     color: var(--text-dim); font-style: italic; line-height: 1.5;
   }
   .station-meta {
@@ -167,7 +167,7 @@
   }
   .size-badge {
     display: flex; align-items: center; gap: 6px;
-    font-family: 'Share Tech Mono', monospace; font-size: 9px;
+    font-family: 'Share Tech Mono', monospace; font-size: 12px;
     letter-spacing: 2px;
   }
   .size-badge .dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -221,7 +221,7 @@
   /* ── UNINHABITED NOTE ── */
   .uninhabited {
     padding: 14px 22px;
-    font-family: 'Share Tech Mono', monospace; font-size: 10px;
+    font-family: 'Share Tech Mono', monospace; font-size: 13px;
     color: var(--text-dim); letter-spacing: 2px;
     font-style: italic;
   }
@@ -231,7 +231,7 @@
     margin-top: 24px; padding: 18px 22px;
     border: 1px solid var(--border); border-radius: 4px;
     background: rgba(10,16,32,0.8);
-    font-size: 12px; font-weight: 300; color: var(--text-dim); line-height: 1.8;
+    font-size: 15px; font-weight: 300; color: var(--text-dim); line-height: 1.8;
   }
   .outer-note strong { color: var(--text-primary); }
     to   { opacity: 1; transform: translateY(0); }
@@ -263,6 +263,21 @@
   </div>
 
   <!-- ═══════════════════════════ INNER SYSTEM ═══════════════════════════ -->
+
+  <!-- SOLAR SYSTEM MAP -->
+  <div style="margin-bottom:48px">
+    <div style="font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:4px;color:var(--accent-teal);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
+      Original Planning Map
+      <span style="flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);display:block"></span>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--panel);">
+      <img src="img/solar-system-map.jpg" alt="Hand-drawn solar system settlements map" style="width:100%;height:auto;display:block;opacity:0.92;">
+    </div>
+    <p style="font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:1px;color:var(--text-dim);margin-top:10px;text-align:center;">
+      Hand-drawn planning map · White rectangles on orbital rings = Orbiting Stations · Dots on bodies = Surface Habitats · Blue = Small · Green = Medium · Red = Large
+    </p>
+  </div>
+
   <div class="section-label">Inner Solar System</div>
 
   <!-- MERCURY -->

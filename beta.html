@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign up to beta read Ella Dekker & Intrepid Pro — a YA sci-fi novel set aboard the Intrepid Space Settlement.">
+  <title>Beta Readers — Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    .form-card {
+      background: var(--panel);
+      border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 4px;
+      padding: 40px 44px;
+      max-width: 720px;
+      margin: 0 auto var(--section-gap);
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 3px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-sublabel {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 13px 16px;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent-gold);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23607080' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .form-select option {
+      background: var(--deep);
+      color: var(--text-primary);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-gold);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-item span {
+      font-size: var(--text-base);
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .form-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .submit-btn {
+      background: var(--accent-gold);
+      color: var(--void);
+      border: none;
+      border-radius: 3px;
+      padding: 15px 36px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover {
+      background: #ffd060;
+      transform: translateY(-1px);
+    }
+
+    .submit-note {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* What to expect section */
+    .expect-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: var(--section-gap);
+    }
+
+    .expect-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 22px 20px;
+    }
+
+    .expect-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent-gold);
+      line-height: 1;
+      margin-bottom: 10px;
+      opacity: 0.6;
+    }
+
+    .expect-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .expect-desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 767px) {
+      .form-card { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .expect-grid { grid-template-columns: 1fr; }
+      .submit-row { flex-direction: column; align-items: flex-start; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <header class="page-header">
+      <p class="page-eyebrow">Book One · Working Draft · Volunteers Welcome</p>
+      <h1 class="page-title">Beta <span>Readers</span></h1>
+      <p class="page-subtitle">Ella Dekker &amp; Intrepid Pro</p>
+    </header>
+
+    <!-- WHAT TO EXPECT -->
+    <div class="section-label">What Beta Reading Involves</div>
+    <div class="expect-grid">
+      <div class="expect-card">
+        <div class="expect-num">01</div>
+        <div class="expect-title">Read the Full Draft</div>
+        <div class="expect-desc">You'll receive a complete first draft of Book One — approximately 60,000–80,000 words — in a format of your choice. No chapters, no excerpts. The whole thing.</div>
+      </div>
+      <div class="expect-card">
+        <div class="expect-num">02</div>
+        <div class="expect-title">Share Your Reactions</div>
+        <div class="expect-desc">A short questionnaire after reading covers what worked, what confused you, what you loved, and what you'd skip. No formal review required. Honest reactions are all that matters.</div>
+      </div>
+      <div class="expect-card">
+        <div class="expect-num">03</div>
+        <div class="expect-title">Get Credited</div>
+        <div class="expect-desc">Every beta reader who completes the process will be acknowledged in the published book. You'll also receive a copy of the final published edition.</div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="section-label">Sign Up</div>
+
+    <form
+      class="form-card"
+      action="https://formspree.io/f/placeholder"
+      method="POST"
+    >
+      <!-- Name + Email -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="First and last name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+
+      <!-- Age / Reading context -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="age-group">Your Age Group</label>
+          <p class="form-sublabel">This is a YA novel. We want readers of all ages — kids, teens, and adults who read YA.</p>
+          <select class="form-select" id="age-group" name="age_group" required>
+            <option value="" disabled selected>Select age group</option>
+            <option value="under-13">Under 13</option>
+            <option value="13-17">13–17</option>
+            <option value="18-25">18–25</option>
+            <option value="26-40">26–40</option>
+            <option value="40+">40+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="ya-exp">YA Reading Experience</label>
+          <p class="form-sublabel">How often do you read young adult fiction?</p>
+          <select class="form-select" id="ya-exp" name="ya_experience" required>
+            <option value="" disabled selected>Select frequency</option>
+            <option value="regular">Regularly — it's my main genre</option>
+            <option value="occasional">Occasionally — a few books a year</option>
+            <option value="rarely">Rarely — I'm reading outside my usual</option>
+            <option value="never">First YA book — trying something new</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Genres -->
+      <div class="form-group">
+        <label class="form-label">Genres You Enjoy</label>
+        <p class="form-sublabel">Select all that apply. This helps us understand your baseline as a reader.</p>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" name="genres" value="ya-scifi"> <span>YA Science Fiction</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="genres" value="ya-adventure"> <span>YA Adventure / Action</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="genres" value="hard-scifi"> <span>Hard Science Fiction (adult)</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="genres" value="middle-grade"> <span>Middle Grade Fiction</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="genres" value="general-fiction"> <span>General / Literary Fiction</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Availability -->
+      <div class="form-group">
+        <label class="form-label" for="availability">Reading Availability</label>
+        <p class="form-sublabel">When the draft is ready, how much time could you give it?</p>
+        <select class="form-select" id="availability" name="availability" required>
+          <option value="" disabled selected>Select availability</option>
+          <option value="1-week">I could finish within 1 week</option>
+          <option value="2-weeks">2 weeks works for me</option>
+          <option value="1-month">I'd need about a month</option>
+          <option value="flexible">Flexible — depends on timing</option>
+        </select>
+      </div>
+
+      <!-- Why -->
+      <div class="form-group">
+        <label class="form-label" for="why">Why Do You Want to Beta Read?</label>
+        <p class="form-sublabel">Optional but helpful. One or two sentences is plenty.</p>
+        <textarea class="form-textarea" id="why" name="why" placeholder="Tell us a little about what draws you to this..."></textarea>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <div class="submit-row">
+        <button type="submit" class="submit-btn">Submit Application</button>
+        <p class="submit-note">
+          You'll receive a confirmation email.<br>
+          We'll be in touch when the draft is ready for readers.
+        </p>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

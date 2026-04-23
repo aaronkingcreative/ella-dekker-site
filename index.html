@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ella Dekker & Intrepid Pro — A YA sci-fi series set aboard the Intrepid Space Settlement. Follow Ella Dekker, 12, as she navigates life, secrets, and danger aboard humanity's most famous home in space.">
+  <title>Ella Dekker & Intrepid Pro — EllaDekkerSeries.com</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    /* ── HERO ── */
+    .hero {
+      min-height: calc(100vh - var(--nav-height));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px var(--page-padding) 80px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 5px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      animation: fadeSlideIn 0.6s ease forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 8vw, 80px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: 2px;
+      color: #fff;
+      margin-bottom: 12px;
+      animation: fadeSlideIn 0.6s 0.1s ease both;
+    }
+
+    .hero-title .amp {
+      color: var(--accent-gold);
+      font-size: 0.7em;
+    }
+
+    .hero-title .team {
+      display: block;
+      color: var(--accent-gold);
+    }
+
+    .hero-sub {
+      font-family: var(--font-mono);
+      font-size: clamp(11px, 2vw, 14px);
+      letter-spacing: 4px;
+      color: var(--text-dim);
+      margin-bottom: 36px;
+      text-transform: uppercase;
+      animation: fadeSlideIn 0.6s 0.2s ease both;
+    }
+
+    .hero-logline {
+      font-family: var(--font-body);
+      font-size: clamp(16px, 2.5vw, 21px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeSlideIn 0.6s 0.3s ease both;
+    }
+
+    .hero-logline strong {
+      color: #fff;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideIn 0.6s 0.4s ease both;
+    }
+
+    .btn {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 3px;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent-gold);
+      color: var(--void);
+    }
+
+    .btn-primary:hover {
+      background: #ffd060;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(240,192,64,0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-bright);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+      transform: translateY(-1px);
+    }
+
+    /* Hero scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: fadeIn 1s 1s ease both;
+    }
+
+    .hero-scroll span {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--accent-gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ── ORBIT LINE ── */
+    .orbit-divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0 0 var(--section-gap);
+    }
+
+    .orbit-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .orbit-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 12px var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: var(--section-gap);
+    }
+
+    .feature-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 24px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--accent-teal);
+      transition: background 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .feature-card:nth-child(1)::before { background: var(--accent-gold); }
+    .feature-card:nth-child(2)::before { background: var(--accent-blue); }
+    .feature-card:nth-child(3)::before { background: var(--accent-teal); }
+    .feature-card:nth-child(4)::before { background: var(--accent-green); }
+
+    .feature-icon {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+    }
+
+    .feature-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+
+    .feature-desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .feature-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent-teal);
+      margin-top: 4px;
+    }
+
+    /* ── WORLD AT A GLANCE ── */
+    .world-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--section-gap);
+    }
+
+    .stat-block {
+      background: var(--panel);
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* ── SIGN UP STRIP ── */
+    .signup-strip {
+      background: linear-gradient(135deg, #0d1e35, #091525);
+      border: 1px solid rgba(240,192,64,0.3);
+      border-radius: 4px;
+      padding: 48px 40px;
+      text-align: center;
+      margin-bottom: var(--section-gap);
+      position: relative;
+    }
+
+    .signup-strip::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .signup-title {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .signup-sub {
+      font-size: var(--text-base);
+      font-weight: 300;
+      color: var(--text-dim);
+      max-width: 500px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    .signup-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .signup-input {
+      flex: 1;
+      min-width: 220px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 13px 18px;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .signup-input:focus {
+      border-color: var(--accent-gold);
+    }
+
+    .signup-btn {
+      background: var(--accent-gold);
+      color: var(--void);
+      border: none;
+      border-radius: 3px;
+      padding: 13px 28px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .signup-btn:hover {
+      background: #ffd060;
+      transform: translateY(-1px);
+    }
+
+    .signup-note {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1023px) {
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .world-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 767px) {
+      .hero { min-height: auto; padding-top: 48px; padding-bottom: 64px; }
+      .hero-scroll { display: none; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .world-stats { grid-template-columns: 1fr 1fr; }
+      .signup-strip { padding: 36px 24px; }
+    }
+
+    @media (max-width: 479px) {
+      .world-stats { grid-template-columns: 1fr 1fr; }
+      .stat-block { padding: 20px 12px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap" style="padding-top:0; padding-bottom:0; max-width:100%">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
+      <h1 class="hero-title">
+        Ella Dekker
+        <span class="amp">&</span>
+        <span class="team">Intrepid Pro</span>
+      </h1>
+      <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
+      <p class="hero-logline">
+        <strong>Ella Dekker</strong> came to the Intrepid to find her father.
+        She found something much worse — and a team of kids she never asked for,
+        who turned out to be exactly what she needed.
+      </p>
+      <div class="hero-cta-row">
+        <a href="beta.html" class="btn btn-primary">Join Beta Readers</a>
+        <a href="characters.html" class="btn btn-secondary">Meet the Team</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        <span>Explore</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <div class="page-wrap" style="padding-top: 48px">
+
+      <!-- ORBIT DIVIDER -->
+      <div class="orbit-divider">
+        <div class="orbit-line"></div>
+        <div class="orbit-dot"></div>
+        <div class="orbit-line"></div>
+      </div>
+
+      <!-- WORLD STATS -->
+      <div class="world-stats">
+        <div class="stat-block">
+          <div class="stat-number">5,000</div>
+          <div class="stat-label">Residents aboard<br>The Intrepid</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">7</div>
+          <div class="stat-label">Members of<br>Intrepid Pro</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">14</div>
+          <div class="stat-label">Stations &amp; habitats<br>in the First Reach</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">2.3<span style="font-size:0.5em">km</span></div>
+          <div class="stat-label">Ring circumference —<br>27 min full walk</div>
+        </div>
+      </div>
+
+      <!-- EXPLORE SECTION -->
+      <div class="section-label">Explore the World</div>
+
+      <div class="feature-grid">
+        <a href="characters.html" class="feature-card">
+          <div class="feature-icon">Characters</div>
+          <div class="feature-name">Ella &amp; Intrepid Pro</div>
+          <div class="feature-desc">Meet the full team — Ella Dekker, Lincoln, Joop "Spek" de Boek, Hemi &amp; Ari Mahaki, Jamaal "Whiskers" Okafor, and Mitch. Ages, origins, roles, and the details that make them who they are.</div>
+          <div class="feature-link">View roster →</div>
+        </a>
+
+        <a href="districts.html" class="feature-card">
+          <div class="feature-icon">The Intrepid</div>
+          <div class="feature-name">Station Districts</div>
+          <div class="feature-desc">Six districts, six scientists, one ring. Payne, Kaku, Oort, Cannon, Fraunhofer, Herschel — each named, each distinct, each a different character in the story. Plus the physics of living on a rotating habitat.</div>
+          <div class="feature-link">Explore the ring →</div>
+        </a>
+
+        <a href="settlements.html" class="feature-card">
+          <div class="feature-icon">World Bible</div>
+          <div class="feature-name">The First Reach</div>
+          <div class="feature-desc">Fourteen stations and habitats across the solar system — from the Intrepid in Earth orbit to Kalpana One at Saturn. The era of humanity's first expansion beyond Earth, mapped and documented.</div>
+          <div class="feature-link">View settlements →</div>
+        </a>
+
+        <a href="beta.html" class="feature-card">
+          <div class="feature-icon">Get Involved</div>
+          <div class="feature-name">Beta Readers</div>
+          <div class="feature-desc">The first draft is being written. When it's ready, we need readers who love YA and sci-fi to read it before anyone else. Sign up to be considered for the first beta reading group.</div>
+          <div class="feature-link">Sign up →</div>
+        </a>
+      </div>
+
+      <!-- EMAIL SIGNUP -->
+      <div class="signup-strip">
+        <h2 class="signup-title">Follow the Series</h2>
+        <p class="signup-sub">Get updates when the book is ready, when beta reading opens, and when new world-building drops on the site.</p>
+        <form class="signup-form" action="https://formspree.io/f/placeholder" method="POST">
+          <input
+            type="email"
+            name="email"
+            class="signup-input"
+            placeholder="Your email address"
+            required
+            aria-label="Email address"
+          >
+          <button type="submit" class="signup-btn">Follow</button>
+        </form>
+        <p class="signup-note">No spam. No marketing. Just updates when something real happens.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

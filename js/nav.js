@@ -42,7 +42,6 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo" aria-label="Ella Dekker Series home">
         Ella Dekker
-        <span>& the Intrepid Pro</span>
       </a>
       <ul class="nav-links" role="list">
         ${buildLinks(false)}
@@ -99,7 +98,7 @@
   footer.id = 'site-footer';
   footer.innerHTML = `
     <div class="footer-inner">
-      <div class="footer-logo">Ella Dekker <span>&</span> the Intrepid Pro</div>
+      <div class="footer-logo">Ella Dekker</div>
       <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="characters.html">Characters</a></li>

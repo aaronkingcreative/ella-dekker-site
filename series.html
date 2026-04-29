@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The complete Season One series plan for Ella Dekker & the Intrepid Pro — ten books across the solar system.">
+  <title>The Series — Ella Dekker & the Intrepid Pro</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    /* ── JOURNEY TIMELINE ── */
+    .timeline {
+      position: relative;
+      margin-bottom: var(--section-gap);
+    }
+
+    .timeline-spine {
+      position: absolute;
+      left: 19px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--accent-teal)   0%,
+        var(--accent-teal)   38%,
+        var(--accent-gold)   48%,
+        var(--accent-gold)   65%,
+        var(--accent-orange) 75%,
+        var(--accent-red)    100%
+      );
+      opacity: 0.25;
+    }
+
+    /* ── PHASE LABEL ── */
+    .phase-label {
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      letter-spacing: 5px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      margin: 40px 0 12px 52px;
+      opacity: 0.6;
+    }
+
+    .phase-label:first-child { margin-top: 0; }
+
+    /* ── BOOK ROW ── */
+    .book-row {
+      display: flex;
+      gap: 0;
+      align-items: stretch;
+      margin-bottom: 3px;
+      position: relative;
+    }
+
+    /* Node + connector */
+    .book-node-col {
+      width: 40px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 22px;
+    }
+
+    .book-node {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      background: var(--void);
+      flex-shrink: 0;
+      transition: background 0.2s, box-shadow 0.2s;
+      z-index: 1;
+    }
+
+    .book-row:hover .book-node {
+      background: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-gold);
+    }
+
+    /* Card */
+    .book-card {
+      flex: 1;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px 24px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent-teal);
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .book-row:hover .book-card {
+      border-color: var(--border-bright);
+      background: var(--panel-alt);
+    }
+
+    .book-row:hover .book-card::before {
+      opacity: 1;
+    }
+
+    /* Phase accent colors on top bar */
+    .book-row.phase-1 .book-card::before { background: var(--accent-teal); }
+    .book-row.phase-2 .book-card::before { background: var(--accent-gold); }
+    .book-row.phase-3 .book-card::before { background: var(--accent-orange); }
+
+    .book-top {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .book-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    .book-title {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .book-title.proposed {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .title-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      padding: 2px 8px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .badge-confirmed {
+      color: var(--accent-teal);
+      border: 1px solid rgba(48,208,192,0.3);
+      background: rgba(48,208,192,0.06);
+    }
+
+    .badge-working {
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+      background: transparent;
+    }
+
+    /* Location tags */
+    .location-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .loc-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+
+    .loc-intrepid  { color: var(--accent-blue);   border-color: rgba(64,160,240,0.3);  background: rgba(64,160,240,0.06); }
+    .loc-earth     { color: var(--accent-green);   border-color: rgba(80,208,128,0.3);  background: rgba(80,208,128,0.06); }
+    .loc-moon      { color: #a0b0c0;               border-color: rgba(160,176,192,0.3); background: rgba(160,176,192,0.06); }
+    .loc-transit   { color: var(--accent-gold);    border-color: rgba(240,192,64,0.3);  background: rgba(240,192,64,0.06); }
+    .loc-saturn    { color: var(--accent-teal);    border-color: rgba(48,208,192,0.3);  background: rgba(48,208,192,0.06); }
+    .loc-belt      { color: var(--accent-orange);  border-color: rgba(240,128,64,0.3);  background: rgba(240,128,64,0.06); }
+    .loc-ceres     { color: var(--accent-purple);  border-color: rgba(144,96,224,0.3);  background: rgba(144,96,224,0.06); }
+
+    /* Body copy */
+    .book-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 28px;
+    }
+
+    .book-story {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .book-arc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+      padding-left: 16px;
+      border-left: 1px solid var(--border-bright);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── SEASON SUMMARY STATS ── */
+    .season-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: var(--section-gap);
+    }
+
+    .season-stat {
+      background: var(--panel);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .season-stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 900;
+      color: var(--accent-gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .season-stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* ── ARC SUMMARY CARDS ── */
+    .arc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: var(--section-gap);
+    }
+
+    .arc-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .arc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .arc-card.phase-1::before { background: var(--accent-teal); }
+    .arc-card.phase-2::before { background: var(--accent-gold); }
+    .arc-card.phase-3::before { background: var(--accent-orange); }
+
+    .arc-phase {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .arc-card.phase-1 .arc-phase { color: var(--accent-teal); }
+    .arc-card.phase-2 .arc-phase { color: var(--accent-gold); }
+    .arc-card.phase-3 .arc-phase { color: var(--accent-orange); }
+
+    .arc-books {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .arc-title {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .arc-desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* ── SEASON NOTE ── */
+    .season-note {
+      background: linear-gradient(135deg, #0d1e35, #091525);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 4px;
+      padding: 32px 36px;
+      margin-bottom: var(--section-gap);
+      position: relative;
+      text-align: center;
+    }
+
+    .season-note::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .season-note-text {
+      font-size: var(--text-md);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .season-note-text strong {
+      color: #fff;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1023px) {
+      .arc-grid { grid-template-columns: 1fr 1fr; }
+      .season-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 767px) {
+      .book-body { grid-template-columns: 1fr; }
+      .book-arc  { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 8px; margin-top: 4px; }
+      .arc-grid  { grid-template-columns: 1fr; }
+      .season-stats { grid-template-columns: 1fr 1fr; }
+      .timeline-spine { left: 15px; }
+      .book-node-col { width: 32px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <header class="page-header">
+      <p class="page-eyebrow">Season One · Ten Books · One Solar System</p>
+      <h1 class="page-title">The <span>Series</span></h1>
+      <p class="page-subtitle">Ella Dekker &amp; the Intrepid Pro</p>
+      <span class="page-tag">All First Year of Joop on Kalpana</span>
+    </header>
+
+    <!-- SEASON STATS -->
+    <div class="season-stats">
+      <div class="season-stat">
+        <div class="season-stat-num">10</div>
+        <div class="season-stat-label">Books in<br>Season One</div>
+      </div>
+      <div class="season-stat">
+        <div class="season-stat-num">3</div>
+        <div class="season-stat-label">Phases of<br>the Journey</div>
+      </div>
+      <div class="season-stat">
+        <div class="season-stat-num">5</div>
+        <div class="season-stat-label">Locations across<br>the Solar System</div>
+      </div>
+      <div class="season-stat">
+        <div class="season-stat-num">30+</div>
+        <div class="season-stat-label">Books planned<br>across 3 seasons</div>
+      </div>
+    </div>
+
+    <!-- ARC SUMMARY -->
+    <div class="section-label">Season Arc</div>
+    <div class="arc-grid">
+      <div class="arc-card phase-1">
+        <div class="arc-phase">Phase One</div>
+        <div class="arc-books">Books I – IV</div>
+        <div class="arc-title">Home Base</div>
+        <div class="arc-desc">Ella arrives at the Intrepid and learns its world. Near-Earth orbit. The Moon. A hack that threatens the station from within. The last safe stretch before everything changes.</div>
+      </div>
+      <div class="arc-card phase-2">
+        <div class="arc-phase">Phase Two</div>
+        <div class="arc-books">Books V – VII</div>
+        <div class="arc-title">Into the Deep</div>
+        <div class="arc-desc">The long voyage to Saturn. Finding her mother. A language no one recognizes on the return journey. The discovery that the enemy is far bigger than her father.</div>
+      </div>
+      <div class="arc-card phase-3">
+        <div class="arc-phase">Phase Three</div>
+        <div class="arc-books">Books VIII – X</div>
+        <div class="arc-title">The Belt</div>
+        <div class="arc-desc">Ceres. Space pirates. A dangerous merger. Ella fights without fighting — and wins in a way that creates something worse than what she started with.</div>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="section-label">All Ten Books</div>
+
+    <div class="timeline">
+      <div class="timeline-spine"></div>
+
+      <!-- ── PHASE 1 ── -->
+      <div class="phase-label">Phase One · Home Base · Books I–IV</div>
+
+      <!-- Book 1 -->
+      <div class="book-row phase-1">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book I</span>
+            <span class="book-title">Ella Dekker and the Intrepid Pro</span>
+            <span class="title-badge badge-confirmed">Confirmed</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-earth">Earth</span>
+            <span class="loc-tag loc-intrepid">Intrepid Arrival</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">A school kidnapping, a stolen drone, and a team of new friends she never asked for. Ella came for her father. She found something far more complicated.</div>
+            <div class="book-arc">Ella finds a world — and loses her plan.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 2 -->
+      <div class="book-row phase-1">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book II</span>
+            <span class="book-title">Ella Dekker and the Space Archaeologist</span>
+            <span class="title-badge badge-confirmed">Confirmed</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-intrepid">Intrepid</span>
+            <span class="loc-tag loc-earth">Near-Earth Orbit</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">Learning to fly Agasa's quantum-entangled drones — until a rogue archaeologist turns it into a race. Ella stops him. She doesn't know yet what that costs her.</div>
+            <div class="book-arc">Ella finds her crew. Accidentally arms her enemy.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 3 -->
+      <div class="book-row phase-1">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book III</span>
+            <span class="book-title proposed">Ella Dekker and the Lunar Express</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-intrepid">Intrepid</span>
+            <span class="loc-tag loc-moon">Moon</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">A school field trip to the lunar base goes nothing like the itinerary promised. First real excursion. First look away from Earth.</div>
+            <div class="book-arc">Ella starts looking outward.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 4 -->
+      <div class="book-row phase-1">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book IV</span>
+            <span class="book-title proposed">Ella Dekker and the Harvest Hack</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-intrepid">Intrepid</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">Market Day. Robotic farming. A hack that threatens the station's food supply. Home feels very fragile. The last warm book before everything changes.</div>
+            <div class="book-arc">Ella defends what she's come to love.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PHASE 2 ── -->
+      <div class="phase-label">Phase Two · Into the Deep · Books V–VII</div>
+
+      <!-- Book 5 -->
+      <div class="book-row phase-2">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book V</span>
+            <span class="book-title proposed">Ella Dekker and the Long Passage</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-transit">Starliner Transit</span>
+            <span class="loc-tag loc-transit">Deep Space</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">Aboard a deep-space liner bound for Saturn. Something goes very wrong before they arrive. The journey is its own danger.</div>
+            <div class="book-arc">Ella chooses to find her mother.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 6 -->
+      <div class="book-row phase-2">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book VI</span>
+            <span class="book-title proposed">Ella Dekker and the Ringed World</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-saturn">Saturn Orbital</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">Saturn is everything they imagined. Ella's mother is not. The reunion she planned for across five books arrives — and it's complicated.</div>
+            <div class="book-arc">Ella finds what she came for.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 7 -->
+      <div class="book-row phase-2">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book VII</span>
+            <span class="book-title proposed">Ella Dekker and the Ghost Frequency</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-transit">Return Transit</span>
+            <span class="loc-tag loc-belt">Belt Approach</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">On the way home, a language no one recognizes. A code that reveals something far bigger than Bas Jan. The world just got larger and darker.</div>
+            <div class="book-arc">Ella realizes the enemy is bigger than her father.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PHASE 3 ── -->
+      <div class="phase-label">Phase Three · The Belt · Books VIII–X</div>
+
+      <!-- Book 8 -->
+      <div class="book-row phase-3">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book VIII</span>
+            <span class="book-title proposed">Ella Dekker and the Belt Pirates</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-ceres">Ceres</span>
+            <span class="loc-tag loc-belt">Asteroid Belt</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">Ceres Station. Space pirates with their own code. Bas Jan trying to merge two dangerous worlds into one. Ella caught between forces she doesn't yet fully understand.</div>
+            <div class="book-arc">Ella is caught between two dangerous worlds.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 9 -->
+      <div class="book-row phase-3">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book IX</span>
+            <span class="book-title proposed">Ella Dekker and the Ceres Blackout</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-ceres">Ceres Interior</span>
+            <span class="loc-tag loc-ceres">Ceres Exterior</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">A power outage. Sabotage. iPro deploys drones like a financial investment — a battle fought in code and credit, not fists. Fighting without fighting.</div>
+            <div class="book-arc">Ella learns that winning doesn't always look like winning.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Book 10 -->
+      <div class="book-row phase-3">
+        <div class="book-node-col"><div class="book-node"></div></div>
+        <div class="book-card">
+          <div class="book-top">
+            <span class="book-num">Book X</span>
+            <span class="book-title proposed">Ella Dekker and the Final Orbit</span>
+            <span class="title-badge badge-working">Working Title</span>
+          </div>
+          <div class="location-row">
+            <span class="loc-tag loc-ceres">Ceres</span>
+            <span class="loc-tag loc-belt">Open Belt Space</span>
+          </div>
+          <div class="book-body">
+            <div class="book-story">The merger is complete. Bas Jan is removed. The victory Ella worked toward across ten books arrives — and immediately creates something worse. Season One ends.</div>
+            <div class="book-arc">Ella loses her target. Gains a bigger one.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <!-- SEASON NOTE -->
+    <div class="season-note">
+      <p class="season-note-text">
+        Season One is a complete story. <strong>Ella arrives. Ella grows. Ella wins — and loses.</strong>
+        The solar system expands book by book, from Earth orbit to Saturn's rings to the Asteroid Belt.
+        Every destination is earned. Season Two is already waiting on the other side of the belt.
+      </p>
+    </div>
+
+    <!-- WRITER NOTE -->
+    <div class="writer-note">
+      <strong>Working Titles</strong> — Confirmed titles are marked. All others are working titles subject to change before publication.
+      The series name <em>Ella Dekker and the Intrepid Pro</em> and the first two book titles are confirmed.
+    </div>
+
+  </div>
+
+  <script src="js/nav.js"></script>
+
+</body>
+</html>

@@ -11,6 +11,7 @@
 
   const PAGES = [
     { href: 'index.html',       label: 'Home' },
+    { href: 'series.html',      label: 'The Series' },
     { href: 'characters.html',  label: 'Characters' },
     { href: 'districts.html',   label: 'The Intrepid' },
     { href: 'settlements.html', label: 'First Reach' },
@@ -101,6 +102,7 @@
       <div class="footer-logo">Ella Dekker</div>
       <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
+        <li><a href="series.html">The Series</a></li>
         <li><a href="characters.html">Characters</a></li>
         <li><a href="districts.html">The Intrepid</a></li>
         <li><a href="settlements.html">First Reach</a></li>

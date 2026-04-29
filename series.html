@@ -372,6 +372,125 @@
       .book-node-col { width: 32px; }
     }
 
+
+    /* ── BOOK 1 FEATURE ── */
+    .book1-feature {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 4px;
+      padding: 32px;
+      margin-bottom: var(--section-gap);
+      position: relative;
+      overflow: hidden;
+    }
+    .book1-feature::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .book1-cover-wrap {
+      flex-shrink: 0;
+      width: 160px;
+      cursor: pointer;
+      position: relative;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .book1-cover-wrap:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+    }
+    .book1-cover-wrap img { width: 100%; display: block; }
+    .book1-cover-zoom {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(240,192,64,0.4);
+      border-radius: 2px;
+      padding: 3px 7px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+    }
+    .book1-info { flex: 1; }
+    .book1-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .book1-title {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .book1-title span { color: var(--accent-gold); }
+    .book1-author {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+    .book1-desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,16,0.95);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-height: 90vh;
+      max-width: 90vw;
+      border-radius: 4px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+      cursor: default;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--accent-gold); }
+    @media (max-width: 600px) {
+      .book1-feature { flex-direction: column; align-items: center; text-align: center; }
+      .book1-cover-wrap { width: 140px; }
+    }
+
   </style>
 </head>
 <body>
@@ -382,8 +501,24 @@
       <p class="page-eyebrow">Season One · Ten Books · One Solar System</p>
       <h1 class="page-title">The <span>Series</span></h1>
       <p class="page-subtitle">Ella Dekker &amp; the Intrepid Pro</p>
-      <span class="page-tag">All of Ella's First Year in space</span>
+      <span class="page-tag">All of Ella's First Year in Space</span>
     </header>
+
+
+    <!-- BOOK 1 COVER FEATURE -->
+    <div class="section-label">Now Writing</div>
+    <div class="book1-feature">
+      <div class="book1-cover-wrap" onclick="document.getElementById('cover-lightbox').classList.add('open')">
+        <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup">
+        <div class="book1-cover-zoom">View Cover</div>
+      </div>
+      <div class="book1-info">
+        <div class="book1-label">Book One · Cover Mockup</div>
+        <div class="book1-title">Ella Dekker<br><span>and the Intrepid Pro</span></div>
+        <div class="book1-author">Aaron King</div>
+        <p class="book1-desc">Ella came to the Intrepid Space Settlement to find her father. She found a world she never expected — a team she never asked for, and a secret that changes everything she thought she knew about the man she came to meet.</p>
+      </div>
+    </div>
 
     <!-- SEASON STATS -->
     <div class="season-stats">
@@ -658,6 +793,13 @@
       The series name <em>Ella Dekker and the Intrepid Pro</em> and the first two book titles are confirmed.
     </div>
 
+  </div>
+
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="cover-lightbox" onclick="this.classList.remove('open')">
+    <div class="lightbox-close">✕ &nbsp;Close</div>
+    <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup" onclick="event.stopPropagation()">
   </div>
 
   <script src="js/nav.js"></script>

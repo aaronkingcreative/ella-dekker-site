@@ -123,6 +123,93 @@
       transform: translateY(-1px);
     }
 
+
+    /* ── HERO COVER ── */
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 60px;
+      max-width: 1100px;
+      width: 100%;
+    }
+    .hero-text { flex: 1; text-align: left; max-width: 560px; }
+    .hero-cover {
+      flex-shrink: 0;
+      width: 220px;
+      animation: fadeSlideIn 0.8s 0.3s ease both;
+      cursor: pointer;
+    }
+    .hero-cover-wrap {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 16px 60px rgba(0,0,0,0.7), 0 0 40px rgba(240,192,64,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .hero-cover-wrap:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.8), 0 0 60px rgba(240,192,64,0.15);
+    }
+    .hero-cover-wrap img { width: 100%; display: block; }
+    .hero-cover-label {
+      margin-top: 12px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    /* Override hero text-align for split layout */
+    .hero-inner .hero-eyebrow,
+    .hero-inner .hero-sub,
+    .hero-inner .hero-logline { text-align: left; }
+    .hero-inner .hero-cta-row { justify-content: flex-start; }
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,16,0.95);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-height: 90vh;
+      max-width: 90vw;
+      border-radius: 4px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+      cursor: default;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--accent-gold); }
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column-reverse; gap: 36px; text-align: center; }
+      .hero-cover { width: 180px; }
+      .hero-inner .hero-eyebrow,
+      .hero-inner .hero-sub,
+      .hero-inner .hero-logline { text-align: center; }
+      .hero-inner .hero-cta-row { justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .hero-cover { width: 150px; }
+    }
+
     /* Hero scroll indicator */
     .hero-scroll {
       position: absolute;
@@ -413,21 +500,31 @@
 
     <!-- HERO -->
     <section class="hero">
-      <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
-      <h1 class="hero-title">
-        Ella Dekker
-        <span class="amp">& the</span>
-        <span class="team">Intrepid Pro</span>
-      </h1>
-      <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
-      <p class="hero-logline">
-        <strong>Ella Dekker</strong> came to the Intrepid to find her father.
-        She found something much worse. And a team of new friends she never asked for,
-        but who turned out to be exactly what she needed.
-      </p>
-      <div class="hero-cta-row">
-        <a href="beta.html" class="btn btn-primary">Join Beta Readers</a>
-        <a href="characters.html" class="btn btn-secondary">Meet the Team</a>
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
+          <h1 class="hero-title">
+            Ella Dekker
+            <span class="amp">& the</span>
+            <span class="team">Intrepid Pro</span>
+          </h1>
+          <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
+          <p class="hero-logline">
+            <strong>Ella Dekker</strong> came to the Intrepid to find her father.
+            She found something much worse. And a team of new friends she never asked for,
+            but who turned out to be exactly what she needed.
+          </p>
+          <div class="hero-cta-row">
+            <a href="beta.html" class="btn btn-primary">Join Beta Readers</a>
+            <a href="characters.html" class="btn btn-secondary">Meet the Team</a>
+          </div>
+        </div>
+        <div class="hero-cover" onclick="document.getElementById('cover-lightbox').classList.add('open')">
+          <div class="hero-cover-wrap">
+            <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup">
+          </div>
+          <div class="hero-cover-label">Book One · Cover Mockup</div>
+        </div>
       </div>
       <div class="hero-scroll">
         <div class="scroll-line"></div>
@@ -521,6 +618,13 @@
 
     </div>
   </main>
+
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="cover-lightbox" onclick="this.classList.remove('open')">
+    <div class="lightbox-close">✕ &nbsp;Close</div>
+    <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup" onclick="event.stopPropagation()">
+  </div>
 
   <script src="js/nav.js"></script>
 

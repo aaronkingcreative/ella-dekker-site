@@ -377,6 +377,96 @@
       line-height: 1.4;
     }
 
+
+    /* ── COVER FEATURE ── */
+    .cover-feature {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid rgba(240,192,64,0.2);
+      border-radius: 4px;
+      padding: 36px 40px;
+      margin-bottom: var(--section-gap);
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-feature::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .cover-thumb {
+      flex-shrink: 0;
+      width: 180px;
+      cursor: pointer;
+    }
+    .cover-thumb-wrap {
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.65);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .cover-thumb:hover .cover-thumb-wrap {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 64px rgba(0,0,0,0.8), 0 0 40px rgba(240,192,64,0.12);
+    }
+    .cover-thumb-wrap img { width: 100%; display: block; }
+    .cover-thumb-hint {
+      margin-top: 10px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .cover-info { flex: 1; }
+    .cover-info-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .cover-info-title {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .cover-info-title span { color: var(--accent-gold); }
+    .cover-info-author {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+    }
+    .cover-info-desc {
+      font-size: var(--text-sm);
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.75;
+      max-width: 460px;
+    }
+    .cover-info-desc em {
+      color: var(--accent-teal);
+      font-style: normal;
+    }
+    @media (max-width: 767px) {
+      .cover-feature { flex-direction: column; align-items: center; text-align: center; padding: 28px 20px; }
+      .cover-thumb { width: 160px; }
+      .cover-info-desc { max-width: 100%; }
+    }
+
     /* ── SIGN UP STRIP ── */
     .signup-strip {
       background: linear-gradient(135deg, #0d1e35, #091525);
@@ -500,31 +590,21 @@
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-text">
-          <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
-          <h1 class="hero-title">
-            Ella Dekker
-            <span class="amp">& the</span>
-            <span class="team">Intrepid Pro</span>
-          </h1>
-          <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
-          <p class="hero-logline">
-            <strong>Ella Dekker</strong> came to the Intrepid to find her father.
-            She found something much worse. And a team of new friends she never asked for,
-            but who turned out to be exactly what she needed.
-          </p>
-          <div class="hero-cta-row">
-            <a href="beta.html" class="btn btn-primary">Join Beta Readers</a>
-            <a href="characters.html" class="btn btn-secondary">Meet the Team</a>
-          </div>
-        </div>
-        <div class="hero-cover" onclick="document.getElementById('cover-lightbox').classList.add('open')">
-          <div class="hero-cover-wrap">
-            <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup">
-          </div>
-          <div class="hero-cover-label">Book One · Cover Mockup</div>
-        </div>
+      <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
+      <h1 class="hero-title">
+        Ella Dekker
+        <span class="amp">& the</span>
+        <span class="team">Intrepid Pro</span>
+      </h1>
+      <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
+      <p class="hero-logline">
+        <strong>Ella Dekker</strong> came to the Intrepid to find her father.
+        She found something much worse. And a team of new friends she never asked for,
+        but who turned out to be exactly what she needed.
+      </p>
+      <div class="hero-cta-row">
+        <a href="beta.html" class="btn btn-primary">Join Beta Readers</a>
+        <a href="characters.html" class="btn btn-secondary">Meet the Team</a>
       </div>
       <div class="hero-scroll">
         <div class="scroll-line"></div>
@@ -596,6 +676,26 @@
           <div class="feature-desc">The first draft is being written. When it's ready, we need readers who love YA and sci-fi to read it before anyone else. Sign up to be considered for the first beta reading group.</div>
           <div class="feature-link">Sign up →</div>
         </a>
+      </div>
+
+
+      <!-- BOOK 1 COVER -->
+      <div class="section-label">Book One · Cover Mockup</div>
+
+      <div class="cover-feature">
+        <div class="cover-thumb" onclick="document.getElementById('cover-lightbox').classList.add('open')">
+          <div class="cover-thumb-wrap">
+            <img src="img/book1-cover.jpg" alt="Ella Dekker and the Intrepid Pro — Cover Mockup">
+          </div>
+          <div class="cover-thumb-hint">Click to enlarge</div>
+        </div>
+        <div class="cover-info">
+          <div class="cover-info-label">Work in Progress</div>
+          <div class="cover-info-title">Ella Dekker<br><span>and the Intrepid Pro</span></div>
+          <div class="cover-info-author">Aaron King</div>
+          <p class="cover-info-desc">A Dutch girl, a stolen drone, a space station that feels like home — and a father who turned out to be someone else entirely. Book One of the <em>Ella Dekker</em> series is currently being written.</p>
+          <a href="beta.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">Join Beta Readers</a>
+        </div>
       </div>
 
       <!-- EMAIL SIGNUP -->

@@ -39,8 +39,8 @@
 
     .hero-eyebrow {
       font-family: var(--font-mono);
-      font-size: 14px;
-      letter-spacing: 5px;
+      font-size: clamp(10px, 2.5vw, 14px);
+      letter-spacing: clamp(2px, 1vw, 5px);
       color: var(--accent-teal);
       text-transform: uppercase;
       margin-bottom: 20px;
@@ -49,9 +49,9 @@
 
     .hero-title {
       font-family: var(--font-display);
-      font-size: clamp(36px, 8vw, 80px);
+      font-size: clamp(28px, 7vw, 80px);
       font-weight: 900;
-      line-height: 1.0;
+      line-height: 1.05;
       letter-spacing: 2px;
       color: #fff;
       margin-bottom: 12px;
@@ -61,17 +61,19 @@
     .hero-title .amp {
       color: var(--accent-gold);
       font-size: 0.7em;
+      white-space: nowrap;
     }
 
     .hero-title .team {
       display: block;
       color: var(--accent-gold);
+      white-space: nowrap;
     }
 
     .hero-sub {
       font-family: var(--font-mono);
-      font-size: clamp(11px, 2vw, 14px);
-      letter-spacing: 4px;
+      font-size: clamp(9px, 2vw, 14px);
+      letter-spacing: clamp(1px, 0.8vw, 4px);
       color: var(--text-dim);
       margin-bottom: 36px;
       text-transform: uppercase;
@@ -225,6 +227,39 @@
     }
     @media (max-width: 600px) {
       .hero-cover { width: 150px; }
+    }
+
+    @media (max-width: 479px) {
+      .hero-title {
+        font-size: clamp(26px, 11vw, 40px);
+        letter-spacing: 1px;
+      }
+      .hero-title .team {
+        white-space: normal;
+      }
+      .hero-eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+      }
+      .hero-sub {
+        font-size: 9px;
+        letter-spacing: 1px;
+      }
+      .hero-logline {
+        font-size: 15px;
+      }
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 14px 16px;
+      }
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
     }
 
     /* Hero scroll indicator */
@@ -609,9 +644,8 @@
     <section class="hero">
       <p class="hero-eyebrow">YA Sci-Fi Series · Book One Coming Soon</p>
       <h1 class="hero-title">
-        Ella Dekker
-        <span class="amp">& the</span>
-        <span class="team">Intrepid Pro</span>
+        Ella Dekker <span class="amp">&amp;&nbsp;the</span>
+        <span class="team">Intrepid&nbsp;Pro</span>
       </h1>
       <p class="hero-sub">Intrepid Space Settlement · Earth Orbit · The First Reach</p>
       <p class="hero-logline">

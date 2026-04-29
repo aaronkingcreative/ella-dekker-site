@@ -87,6 +87,19 @@ body {
     radial-gradient(ellipse at 20% 10%, rgba(40,80,160,0.12) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 90%, rgba(20,60,120,0.10) 0%, transparent 50%);
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Prevent orphaned words in all body text */
+p, .prose, .feature-desc, .bio-text, .expect-desc, .origin-text {
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+/* Balance short headings */
+h1, h2, h3, .page-title, .feature-name, .section-label {
+  text-wrap: balance;
 }
 
 /* Star field */
@@ -150,7 +163,7 @@ body::before {
 
 .nav-logo {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: clamp(20px, 5vw, 36px);
   font-weight: 900;
   letter-spacing: 1px;
   color: #fff;
@@ -298,7 +311,7 @@ body::before {
 
 .page-title {
   font-family: var(--font-display);
-  font-size: clamp(var(--text-2xl), 5vw, var(--text-3xl));
+  font-size: clamp(var(--text-xl), 5vw, var(--text-3xl));
   font-weight: 900;
   letter-spacing: 2px;
   color: #fff;
@@ -332,7 +345,7 @@ body::before {
 .section-label {
   font-family: var(--font-display);
   font-size: var(--text-xs);
-  letter-spacing: 5px;
+  letter-spacing: clamp(2px, 1vw, 5px);
   color: var(--accent-teal);
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -563,8 +576,8 @@ body::before {
   :root {
     --page-padding: 16px;
     --section-gap:  40px;
-    --text-base:    17px;
-    --text-md:      18px;
+    --text-base:    16px;
+    --text-md:      17px;
   }
 
   .page-wrap { padding: 32px var(--page-padding) 60px; }
@@ -577,6 +590,19 @@ body::before {
 
   .footer-inner { flex-direction: column; align-items: center; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
+
+  /* Reduce letter-spacing site-wide on small screens */
+  .page-eyebrow { letter-spacing: 2px; font-size: 11px; }
+  .page-subtitle { letter-spacing: 2px; font-size: 12px; }
+  .mono-label { letter-spacing: 2px; }
+  .section-label { font-size: 11px; }
+
+  /* Prevent stat numbers overflowing */
+  .stat-number { font-size: clamp(20px, 8vw, 38px); }
+  .stat-label { font-size: 10px; letter-spacing: 1px; }
+
+  /* Writer note readable */
+  .writer-note { font-size: 11px; }
 }
 
 /* ── SMALL MOBILE (max 479px) ── */
@@ -589,4 +615,24 @@ body::before {
     font-size: var(--text-xl);
     letter-spacing: 1px;
   }
+
+  .page-eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .page-subtitle {
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  /* Stack footer links cleanly */
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Ensure no horizontal scroll */
+  .world-stats { grid-template-columns: 1fr 1fr; }
+  .stat-block { padding: 16px 10px; }
 }

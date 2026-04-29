@@ -521,6 +521,99 @@
       .cover-info-desc { max-width: 100%; }
     }
 
+
+    /* ── SPINE LIST ── */
+    .spine-list {
+      margin-bottom: var(--section-gap);
+    }
+
+    .spine-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: background 0.15s;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-radius: 2px;
+    }
+
+    .spine-item:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .spine-item:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .spine-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .spine-title {
+      font-family: var(--font-display);
+      font-size: clamp(13px, 2vw, 16px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      flex: 1;
+    }
+
+    .spine-title.confirmed { color: #fff; }
+    .spine-title.working   { color: var(--text-secondary); font-style: italic; }
+
+    .spine-badge {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .spine-badge.confirmed {
+      color: var(--accent-gold);
+      border: 1px solid rgba(240,192,64,0.3);
+      background: rgba(240,192,64,0.06);
+    }
+
+    .spine-badge.working {
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+    }
+
+    .spine-arrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-teal);
+      opacity: 0;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+
+    .spine-item:hover .spine-arrow { opacity: 1; }
+
+    .spine-note {
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    @media (max-width: 479px) {
+      .spine-badge { display: none; }
+      .spine-title { font-size: 13px; }
+    }
+
     /* ── SIGN UP STRIP ── */
     .signup-strip {
       background: linear-gradient(135deg, #0d1e35, #091525);
@@ -764,6 +857,56 @@
           <a href="beta.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">Join Beta Readers</a>
         </div>
       </div>
+
+
+      <!-- SEASON ONE SPINE LIST -->
+      <div class="section-label">Season One · All Seven Books</div>
+
+      <div class="spine-list">
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">I</span>
+          <span class="spine-title confirmed">Ella Dekker and the Intrepid Pro</span>
+          <span class="spine-badge confirmed">Confirmed</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">II</span>
+          <span class="spine-title confirmed">Ella Dekker and the Space Archaeologist</span>
+          <span class="spine-badge confirmed">Confirmed</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">III</span>
+          <span class="spine-title working">Ella Dekker and the Lunar Rescue</span>
+          <span class="spine-badge working">Working Title</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">IV</span>
+          <span class="spine-title confirmed">Ella Dekker and the Starliner Academy</span>
+          <span class="spine-badge confirmed">Confirmed</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">V</span>
+          <span class="spine-title confirmed">Ella Dekker and the Ghost Frequency</span>
+          <span class="spine-badge confirmed">Confirmed</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">VI</span>
+          <span class="spine-title working">Ella Dekker and the Belt Pirates</span>
+          <span class="spine-badge working">Working Title</span>
+          <span class="spine-arrow">→</span>
+        </a>
+        <a href="series.html" class="spine-item">
+          <span class="spine-num">VII</span>
+          <span class="spine-title confirmed">Ella Dekker and the Agasa Protocol</span>
+          <span class="spine-badge confirmed">Confirmed</span>
+          <span class="spine-arrow">→</span>
+        </a>
+      </div>
+      <p class="spine-note">Working titles subject to change · <a href="series.html" style="color:var(--accent-teal); text-decoration:none;">Full series details →</a></p>
 
       <!-- EMAIL SIGNUP -->
       <div class="signup-strip">

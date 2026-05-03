@@ -1,6 +1,6 @@
 # Ella Dekker & Intrepid Pro — Series Website
 
-Official website for the *Ella Dekker & Intrepid Pro* YA sci-fi series by Aaron King.
+Official website for the *Ella Dekker & Intrepid Pro* Middle Grade sci-fi series by Aaron King.
 
 **Live site:** [EllaDekkerSeries.com](https://elladekker­series.com)
 
@@ -8,7 +8,7 @@ Official website for the *Ella Dekker & Intrepid Pro* YA sci-fi series by Aaron 
 
 Ella Dekker is a 12-year-old Dutch girl with a photographic memory and walls built high from years of self-reliance. She came to the Intrepid Space Settlement to find her father. What she found was something far more complicated — and a team of kids she never asked for, who turned out to be exactly what she needed.
 
-*Ella Dekker & Intrepid Pro* is a YA sci-fi novel set aboard the Intrepid, humanity's first and most famous permanent orbital habitat — a Kalpana-class disc station in Earth orbit housing 5,000 residents and rooted in real space settlement science.
+*Ella Dekker & Intrepid Pro* is a Middle Grade sci-fi adventure set aboard the Intrepid, humanity's first and most famous permanent orbital habitat — a Kalpana-class disc station in Earth orbit housing 5,000 residents and rooted in real space settlement science.
 
 ## This Repository
 

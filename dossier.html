@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Character Development — Private · Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    /* ── PAGE LAYOUT ── */
+    .dossier-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .private-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      border: 1px solid rgba(224,80,80,0.3);
+      background: rgba(224,80,80,0.06);
+      border-radius: 3px;
+      padding: 4px 12px;
+      margin-bottom: 32px;
+    }
+
+    .private-badge::before {
+      content: '●';
+      font-size: 8px;
+    }
+
+    /* ── CHARACTER LIST ── */
+    .char-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: var(--section-gap);
+    }
+
+    .char-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+
+    .char-item:hover {
+      border-color: var(--accent-gold);
+      background: rgba(240,192,64,0.04);
+    }
+
+    .char-item.active {
+      border-color: var(--accent-gold);
+      background: rgba(240,192,64,0.06);
+    }
+
+    .char-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      width: 24px;
+      flex-shrink: 0;
+    }
+
+    .char-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      flex: 1;
+    }
+
+    .char-completeness {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+    }
+
+    .char-completeness.full { color: var(--accent-teal); }
+    .char-completeness.partial { color: var(--accent-gold); }
+
+    .char-delete {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      transition: color 0.15s, background 0.15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .char-delete:hover {
+      color: var(--accent-red);
+      background: rgba(224,80,80,0.1);
+    }
+
+    /* ── TOOLBAR ── */
+    .dossier-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .tool-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border-radius: 3px;
+      border: 1px solid var(--border-bright);
+      background: var(--panel);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    .tool-btn.primary {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: var(--void);
+      font-weight: 700;
+    }
+
+    .tool-btn.primary:hover {
+      background: #ffd060;
+      border-color: #ffd060;
+    }
+
+    /* ── FORM PANEL ── */
+    .dossier-form-panel {
+      display: none;
+      background: var(--panel);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 4px;
+      padding: 32px;
+      margin-bottom: var(--section-gap);
+      position: relative;
+    }
+
+    .dossier-form-panel.open { display: block; }
+
+    .dossier-form-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .form-character-name {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Section groupings */
+    .dossier-section {
+      margin-bottom: 32px;
+    }
+
+    .dossier-section-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field-grid.single { grid-template-columns: 1fr; }
+    .field-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group.span-2 { grid-column: 1 / -1; }
+
+    .field-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      opacity: 0.8;
+    }
+
+    .field-input,
+    .field-textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 11px 14px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus {
+      border-color: var(--accent-gold);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+
+    .field-textarea.tall { min-height: 120px; }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+    }
+
+    .save-btn {
+      background: var(--accent-gold);
+      color: var(--void);
+      border: none;
+      border-radius: 3px;
+      padding: 14px 32px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .save-btn:hover {
+      background: #ffd060;
+      transform: translateY(-1px);
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 14px 24px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .cancel-btn:hover {
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+    }
+
+    /* ── SAVED INDICATOR ── */
+    .save-indicator {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent-teal);
+      opacity: 0;
+      transition: opacity 0.3s;
+      align-self: center;
+    }
+
+    .save-indicator.show { opacity: 1; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      border: 1px dashed var(--border-bright);
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    /* ── CUT TEST HIGHLIGHT ── */
+    .cut-test-section .dossier-section-label {
+      color: var(--accent-red);
+    }
+
+    .cut-test-section .field-label {
+      color: var(--accent-red);
+      opacity: 0.7;
+    }
+
+    .cut-test-section .field-input:focus,
+    .cut-test-section .field-textarea:focus {
+      border-color: var(--accent-red);
+    }
+
+    /* ── IMPORT/EXPORT INFO ── */
+    .sync-note {
+      padding: 16px 20px;
+      background: rgba(48,208,192,0.05);
+      border: 1px solid rgba(48,208,192,0.2);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: var(--section-gap);
+    }
+
+    .sync-note strong {
+      color: var(--accent-teal);
+      font-weight: normal;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 767px) {
+      .dossier-form-panel { padding: 20px 16px; }
+      .field-grid { grid-template-columns: 1fr; }
+      .field-grid.triple { grid-template-columns: 1fr; }
+      .field-group.span-2 { grid-column: 1; }
+      .dossier-toolbar { flex-direction: column; }
+      .tool-btn { text-align: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+    <div class="dossier-wrap">
+
+      <header class="page-header">
+        <p class="page-eyebrow">Author Tools · Private</p>
+        <h1 class="page-title">Character <span>Dossiers</span></h1>
+        <p class="page-subtitle">Ella Dekker Series · Development Notes</p>
+      </header>
+
+      <div class="private-badge">Private Page · Not Indexed · Author Access Only</div>
+
+      <!-- SYNC NOTE -->
+      <div class="sync-note">
+        <strong>Phone ↔ Desktop sync:</strong> Use <strong>Export All</strong> to download a JSON backup of all dossiers.
+        Use <strong>Import</strong> to restore them on another device. Data is saved locally in this browser only.
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="section-label">Saved Dossiers</div>
+
+      <div class="dossier-toolbar">
+        <button class="tool-btn primary" onclick="openNewForm()">+ New Dossier</button>
+        <button class="tool-btn" onclick="exportAll()">Export All</button>
+        <button class="tool-btn" onclick="document.getElementById('import-input').click()">Import JSON</button>
+        <input type="file" id="import-input" accept=".json" style="display:none" onchange="importJSON(event)">
+      </div>
+
+      <!-- CHARACTER LIST -->
+      <div class="char-list" id="char-list">
+        <!-- populated by JS -->
+      </div>
+
+      <!-- FORM PANEL -->
+      <div class="dossier-form-panel" id="dossier-form-panel">
+
+        <div class="form-character-name" id="form-char-heading">New Character</div>
+
+        <input type="hidden" id="editing-id">
+
+        <!-- IDENTITY -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Identity</div>
+          <div class="field-grid">
+            <div class="field-group">
+              <label class="field-label">Name</label>
+              <input class="field-input" id="f-name" type="text" placeholder="Full name">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Nickname</label>
+              <input class="field-input" id="f-nickname" type="text" placeholder="Nickname or callsign">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Age / Grade</label>
+              <input class="field-input" id="f-age" type="text" placeholder="Age · Grade">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Nationality</label>
+              <input class="field-input" id="f-nationality" type="text" placeholder="Country / origin">
+            </div>
+            <div class="field-group span-2">
+              <label class="field-label">Role on Intrepid Pro</label>
+              <input class="field-input" id="f-role" type="text" placeholder="Their function in the team">
+            </div>
+          </div>
+        </div>
+
+        <!-- APPEARANCE -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Physical Presence</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">Appearance</label>
+              <textarea class="field-textarea" id="f-appearance" placeholder="How they look — hair, height, build, face, style..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Distinguishing Feature</label>
+              <input class="field-input" id="f-distinguishing" type="text" placeholder="The one thing readers will always picture">
+            </div>
+            <div class="field-group">
+              <label class="field-label">How They Move / Carry Themselves</label>
+              <input class="field-input" id="f-movement" type="text" placeholder="Posture, energy, presence in a room">
+            </div>
+          </div>
+        </div>
+
+        <!-- INNER LIFE -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Inner Life</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">The Lie They Believe</label>
+              <textarea class="field-textarea" id="f-lie" placeholder="The false belief that drives their behavior..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">The Wound</label>
+              <textarea class="field-textarea" id="f-wound" placeholder="What happened that created the lie..."></textarea>
+            </div>
+          </div>
+          <div class="field-grid triple" style="margin-top:16px">
+            <div class="field-group">
+              <label class="field-label">The Want</label>
+              <input class="field-input" id="f-want" type="text" placeholder="What they think they need">
+            </div>
+            <div class="field-group">
+              <label class="field-label">The Need</label>
+              <input class="field-input" id="f-need" type="text" placeholder="What they actually need">
+            </div>
+            <div class="field-group">
+              <label class="field-label">The Fear</label>
+              <input class="field-input" id="f-fear" type="text" placeholder="What they're most afraid of">
+            </div>
+          </div>
+        </div>
+
+        <!-- CHARACTER MECHANICS -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Character Mechanics</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">Strengths & Shadow Sides</label>
+              <textarea class="field-textarea" id="f-strengths" placeholder="What they're good at — and how those same traits create problems..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Flaws & Roots</label>
+              <textarea class="field-textarea" id="f-flaws" placeholder="Their flaws and where those flaws come from..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Quirks & Habits</label>
+              <textarea class="field-textarea" id="f-quirks" placeholder="Small behaviors, verbal tics, physical habits, tells..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- RELATIONSHIP WITH ELLA -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Relationship with Ella</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">What They Give Ella That No One Else Can</label>
+              <textarea class="field-textarea" id="f-gives-ella" placeholder="Their unique contribution to her growth..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">What They Challenge or Destabilize in Ella</label>
+              <textarea class="field-textarea" id="f-challenges-ella" placeholder="How they push against her walls or assumptions..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">What Ella Gives Them in Return</label>
+              <textarea class="field-textarea" id="f-ella-gives" placeholder="How Ella changes or affects them..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">How Their Dynamic Changes from Book I to Book VII</label>
+              <textarea class="field-textarea tall" id="f-arc-dynamic" placeholder="The shape of the relationship across the whole season..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STORY FUNCTION -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Story Function</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">Save the Cat Moment</label>
+              <textarea class="field-textarea" id="f-save-the-cat" placeholder="The scene that makes the reader root for them immediately..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Their Arc in One Sentence</label>
+              <input class="field-input" id="f-arc-sentence" type="text" placeholder="From ___ to ___ by way of ___">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Their Best Scene</label>
+              <textarea class="field-textarea" id="f-best-scene" placeholder="The scene that defines them — written or imagined..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Thematic Role</label>
+              <textarea class="field-textarea" id="f-thematic-role" placeholder="What idea or theme does this character carry in the story..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- CUT TEST -->
+        <div class="dossier-section cut-test-section">
+          <div class="dossier-section-label">Cut Test</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">What Plot Events Become Impossible Without Them?</label>
+              <textarea class="field-textarea" id="f-cut-plot" placeholder="What cannot happen if this character is removed..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">What Does Ella Lose?</label>
+              <textarea class="field-textarea" id="f-cut-ella" placeholder="What Ella specifically loses without this character..."></textarea>
+            </div>
+            <div class="field-group">
+              <label class="field-label">What Emotional Beat Vanishes?</label>
+              <textarea class="field-textarea" id="f-cut-emotional" placeholder="The emotional moment that only this character can create..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTES -->
+        <div class="dossier-section">
+          <div class="dossier-section-label">Notes</div>
+          <div class="field-grid single">
+            <div class="field-group">
+              <label class="field-label">Notes / Anything Else</label>
+              <textarea class="field-textarea tall" id="f-notes" placeholder="Anything else worth capturing — inspiration, casting notes, voice references, things to figure out..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM ACTIONS -->
+        <div class="form-actions">
+          <button class="save-btn" onclick="saveDossier()">Save Dossier</button>
+          <button class="cancel-btn" onclick="closeForm()">Cancel</button>
+          <span class="save-indicator" id="save-indicator">Saved</span>
+        </div>
+
+      </div><!-- /form panel -->
+
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+
+  <script>
+  // ── STORAGE KEY ──
+  const STORE_KEY = 'ella_dekker_dossiers';
+
+  // ── DEFAULT CHARACTERS ──
+  const DEFAULT_CHARS = [
+    'Ella Dekker',
+    'Bas Jan Dekker',
+    "Ella's Mother",
+    'Professor Agasa',
+    'Lincoln Bennett',
+    'Joop de Boek',
+    'Hemi Mahaki',
+    'Ari Mahaki',
+    'Jamaal Okafor',
+    'Mitch Bennett',
+    'Faith',
+  ];
+
+  // ── FIELD IDS (in order for save/load) ──
+  const FIELDS = [
+    'name','nickname','age','nationality','role',
+    'appearance','distinguishing','movement',
+    'lie','wound','want','need','fear',
+    'strengths','flaws','quirks',
+    'gives-ella','challenges-ella','ella-gives','arc-dynamic',
+    'save-the-cat','arc-sentence','best-scene','thematic-role',
+    'cut-plot','cut-ella','cut-emotional',
+    'notes'
+  ];
+
+  // ── LOAD / SAVE ──
+  function loadAll() {
+    try {
+      return JSON.parse(localStorage.getItem(STORE_KEY)) || {};
+    } catch(e) { return {}; }
+  }
+
+  function saveAll(data) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(data));
+  }
+
+  // ── INIT: seed default characters if not already present ──
+  function init() {
+    const data = loadAll();
+    let changed = false;
+    DEFAULT_CHARS.forEach(name => {
+      const id = slugify(name);
+      if (!data[id]) {
+        data[id] = { id, name, order: DEFAULT_CHARS.indexOf(name) };
+        changed = true;
+      }
+    });
+    if (changed) saveAll(data);
+    renderList();
+  }
+
+  function slugify(str) {
+    return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
+  // ── COMPLETENESS ──
+  function completeness(dossier) {
+    const filled = FIELDS.filter(f => f !== 'name' && dossier[f] && dossier[f].trim()).length;
+    const total = FIELDS.length - 1;
+    if (filled === 0) return { label: 'Empty', cls: '' };
+    if (filled === total) return { label: 'Complete', cls: 'full' };
+    return { label: `${filled}/${total}`, cls: 'partial' };
+  }
+
+  // ── RENDER LIST ──
+  function renderList() {
+    const data = loadAll();
+    const list = document.getElementById('char-list');
+
+    const sorted = Object.values(data).sort((a,b) => (a.order ?? 99) - (b.order ?? 99));
+
+    if (sorted.length === 0) {
+      list.innerHTML = '<div class="empty-state">No dossiers yet. Click New Dossier to begin.</div>';
+      return;
+    }
+
+    list.innerHTML = sorted.map((d, i) => {
+      const c = completeness(d);
+      return `
+        <div class="char-item" onclick="openEdit('${d.id}')">
+          <span class="char-num">${String(i+1).padStart(2,'0')}</span>
+          <span class="char-name">${d.name || 'Unnamed'}</span>
+          <span class="char-completeness ${c.cls}">${c.label}</span>
+          <button class="char-delete" onclick="event.stopPropagation(); deleteDossier('${d.id}')" title="Delete">×</button>
+        </div>`;
+    }).join('');
+  }
+
+  // ── OPEN NEW FORM ──
+  function openNewForm() {
+    clearForm();
+    document.getElementById('editing-id').value = '';
+    document.getElementById('form-char-heading').textContent = 'New Character';
+    openPanel();
+    document.getElementById('f-name').focus();
+  }
+
+  // ── OPEN EDIT ──
+  function openEdit(id) {
+    const data = loadAll();
+    const d = data[id];
+    if (!d) return;
+
+    clearForm();
+    document.getElementById('editing-id').value = id;
+    document.getElementById('form-char-heading').textContent = d.name || 'Unnamed';
+
+    FIELDS.forEach(f => {
+      const el = document.getElementById('f-' + f);
+      if (el) el.value = d[f] || '';
+    });
+
+    openPanel();
+    document.getElementById('dossier-form-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── SAVE DOSSIER ──
+  function saveDossier() {
+    const data = loadAll();
+    const editingId = document.getElementById('editing-id').value;
+    const nameVal = document.getElementById('f-name').value.trim();
+
+    if (!nameVal) {
+      document.getElementById('f-name').focus();
+      document.getElementById('f-name').style.borderColor = 'var(--accent-red)';
+      return;
+    }
+    document.getElementById('f-name').style.borderColor = '';
+
+    const id = editingId || slugify(nameVal) + '-' + Date.now();
+    const existing = data[id] || {};
+
+    const dossier = { id, order: existing.order ?? Object.keys(data).length };
+    FIELDS.forEach(f => {
+      const el = document.getElementById('f-' + f);
+      dossier[f] = el ? el.value : '';
+    });
+
+    // If name changed, update heading
+    document.getElementById('form-char-heading').textContent = nameVal;
+    document.getElementById('editing-id').value = id;
+
+    data[id] = dossier;
+    saveAll(data);
+    renderList();
+
+    // Flash saved indicator
+    const ind = document.getElementById('save-indicator');
+    ind.classList.add('show');
+    setTimeout(() => ind.classList.remove('show'), 2000);
+  }
+
+  // ── DELETE ──
+  function deleteDossier(id) {
+    if (!confirm('Delete this dossier? This cannot be undone.')) return;
+    const data = loadAll();
+    delete data[id];
+    saveAll(data);
+    renderList();
+    // If we're editing this one, close form
+    if (document.getElementById('editing-id').value === id) closeForm();
+  }
+
+  // ── EXPORT ──
+  function exportAll() {
+    const data = loadAll();
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ella-dekker-dossiers-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── IMPORT ──
+  function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        const existing = loadAll();
+        const merged = Object.assign({}, existing, imported);
+        saveAll(merged);
+        renderList();
+        alert('Import successful. ' + Object.keys(imported).length + ' dossier(s) loaded.');
+      } catch(err) {
+        alert('Import failed. Please check the file is a valid JSON export from this tool.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // ── HELPERS ──
+  function clearForm() {
+    FIELDS.forEach(f => {
+      const el = document.getElementById('f-' + f);
+      if (el) el.value = '';
+    });
+    document.getElementById('save-indicator').classList.remove('show');
+  }
+
+  function openPanel() {
+    document.getElementById('dossier-form-panel').classList.add('open');
+  }
+
+  function closeForm() {
+    document.getElementById('dossier-form-panel').classList.remove('open');
+    clearForm();
+    document.getElementById('editing-id').value = '';
+  }
+
+  // ── RUN ──
+  init();
+  </script>
+
+</body>
+</html>

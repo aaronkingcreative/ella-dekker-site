@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Story Notes — Private · Ella Dekker Series</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+
+    /* ── STICKY INDEX BAR ── */
+    #notes-index {
+      position: sticky;
+      top: var(--nav-height);
+      z-index: 900;
+      background: rgba(5,8,16,0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px var(--page-padding);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .index-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--accent-teal);
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-right: 12px;
+      border-right: 1px solid var(--border-bright);
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .index-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      padding-bottom: 2px;
+    }
+
+    .index-scroll::-webkit-scrollbar { display: none; }
+
+    .index-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: border-color 0.15s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .index-pill:hover {
+      border-color: var(--accent-gold);
+      background: rgba(240,192,64,0.06);
+    }
+
+    .index-pill-num {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+    }
+
+    .index-pill-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── PAGE WRAP ── */
+    .notes-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-top: 32px;
+    }
+
+    .private-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      border: 1px solid rgba(224,80,80,0.3);
+      background: rgba(224,80,80,0.06);
+      border-radius: 3px;
+      padding: 4px 12px;
+      margin-bottom: 32px;
+    }
+
+    .private-badge::before { content: '●'; font-size: 8px; }
+
+    /* ── NOTES LIST ── */
+    #notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .note-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 28px;
+      position: relative;
+      overflow: hidden;
+      scroll-margin-top: calc(var(--nav-height) + 60px);
+      transition: border-color 0.2s;
+    }
+
+    .note-card:target,
+    .note-card.highlight {
+      border-color: var(--accent-gold);
+      background: rgba(240,192,64,0.03);
+    }
+
+    .note-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-gold), transparent);
+      opacity: 0.4;
+    }
+
+    .note-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .note-num {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 900;
+      color: var(--accent-gold);
+      line-height: 1;
+      opacity: 0.5;
+      flex-shrink: 0;
+      min-width: 64px;
+    }
+
+    .note-meta {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .note-keyword {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .note-date {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .note-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 2px;
+      border: 1px solid var(--border-bright);
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .note-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+    .note-btn.delete:hover { border-color: var(--accent-red); color: var(--accent-red); }
+
+    .note-body {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Edit mode */
+    .note-edit-area {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .note-card.editing .note-body { display: none; }
+    .note-card.editing .note-edit-area { display: flex; }
+    .note-card.editing .note-btn.edit-btn { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+    .edit-keyword-input,
+    .edit-body-textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .edit-keyword-input:focus,
+    .edit-body-textarea:focus { border-color: var(--accent-gold); }
+
+    .edit-body-textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .edit-save-btn {
+      align-self: flex-start;
+      background: var(--accent-gold);
+      color: var(--void);
+      border: none;
+      border-radius: 3px;
+      padding: 10px 24px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .edit-save-btn:hover { background: #ffd060; }
+
+    /* ── ADD NOTE PANEL ── */
+    .add-note-panel {
+      background: var(--panel);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 4px;
+      padding: 28px;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .add-note-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .add-note-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 14px;
+    }
+
+    .add-keyword-input,
+    .add-body-textarea {
+      width: 100%;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-bright);
+      border-radius: 3px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .add-keyword-input:focus,
+    .add-body-textarea:focus { border-color: var(--accent-gold); }
+
+    .add-keyword-input::placeholder,
+    .add-body-textarea::placeholder { color: var(--text-dim); }
+
+    .add-body-textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .add-panel-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .add-save-btn {
+      background: var(--accent-gold);
+      color: var(--void);
+      border: none;
+      border-radius: 3px;
+      padding: 13px 28px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .add-save-btn:hover { background: #ffd060; transform: translateY(-1px); }
+
+    .tool-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      border-radius: 3px;
+      border: 1px solid var(--border-bright);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tool-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+    .note-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
+      margin-left: auto;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      border: 1px dashed var(--border-bright);
+      border-radius: 4px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 767px) {
+      .note-card { padding: 18px 16px; }
+      .note-card-header { gap: 10px; }
+      .note-num { font-size: 24px; min-width: 48px; }
+      .note-actions { flex-direction: column; gap: 4px; }
+      .note-btn { padding: 8px 10px; }
+      .add-note-panel { padding: 20px 16px; }
+      .add-panel-row { flex-direction: column; align-items: stretch; }
+      .add-save-btn { text-align: center; }
+      .tool-btn { text-align: center; }
+      .note-count { margin-left: 0; }
+      #notes-index { padding: 8px 16px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- STICKY INDEX BAR -->
+  <div id="notes-index">
+    <span class="index-label">Index</span>
+    <div class="index-scroll" id="index-scroll">
+      <!-- populated by JS -->
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="notes-wrap">
+
+      <header class="page-header">
+        <p class="page-eyebrow">Author Tools · Private</p>
+        <h1 class="page-title">Story <span>Notes</span></h1>
+        <p class="page-subtitle">Ella Dekker Series · Development Repository</p>
+      </header>
+
+      <div class="private-badge">Private Page · Not Indexed · Author Access Only</div>
+
+      <!-- TOOLBAR -->
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:32px;">
+        <button class="tool-btn" onclick="exportAll()">Export All</button>
+        <button class="tool-btn" onclick="document.getElementById('import-file').click()">Import JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+        <span class="note-count" id="note-count"></span>
+      </div>
+
+      <!-- NOTES LIST -->
+      <div id="notes-list"></div>
+
+      <!-- ADD NOTE PANEL -->
+      <div class="section-label">Add New Note</div>
+      <div class="add-note-panel">
+        <div class="add-note-label">New Entry</div>
+        <input
+          class="add-keyword-input"
+          id="add-keyword"
+          type="text"
+          placeholder="Keyword label (3–5 words — used in the index)"
+          maxlength="60"
+        >
+        <textarea
+          class="add-body-textarea"
+          id="add-body"
+          placeholder="Full note text..."
+        ></textarea>
+        <div class="add-panel-row">
+          <button class="add-save-btn" onclick="addNote()">Save Note</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+
+  <script>
+  const STORE_KEY = 'ella_dekker_notes';
+
+  const DEFAULTS = [
+    {
+      keyword: "Ella's Distinguishing Mark",
+      body: `There was a real car accident when Ella was a baby. Used by Bas Jan to convince Ella's mother their child had died. Ella survived but carries a visible mark — current thinking is scar tissue affecting hair growth on one side (color, texture, or growth pattern). Needs to be cosplay-replicable as an instant recognizable signal. NOT a shaved-side look. Avoid Harry Potter lightning bolt energy. Status: undecided, needs a solution.`
+    },
+    {
+      keyword: "Ella's Logline",
+      body: `Current best version: "A middle grade sci-fi adventure about a book-smart girl who's forced to rely on a team to stop her criminal father in orbit."`
+    },
+    {
+      keyword: "Ella's Physical/Spatial Quirks",
+      body: `Habitually turns the wrong direction out of rooms. Struggles in zero-g more than peers despite knowing the physics perfectly. Zero-g competence grows across Season One — noticeably improved by Book IV but never sudden or heroic. Earned, not assumed.`
+    },
+    {
+      keyword: "Ella's Athletic Profile",
+      body: `Not unathletic by nature — sacrificed physical development to graduate early. Raw potential exists; practice and time do not. Any physical growth must be paid for on the page.`
+    },
+    {
+      keyword: "Ella's Core Character Tension",
+      body: `Expects to do everything alone. Not a master of anything practical (cooking, sport, performance, navigation). Her self-reliance reads as a warning sign, not a virtue. Readers should clock it before she does.`
+    },
+    {
+      keyword: "Academy vs. University",
+      body: `The team attends the Academy. Ella holds prodigy enrollment at a separate University-level institution (working name: Intrepid Institute). The outsider dynamic is structural before personality even factors in.`
+    },
+    {
+      keyword: "Why Ella Can't Enroll in Academy",
+      body: `She's already past Academy level — Agasa couldn't offer it even if he wanted to. Her original plan relied on her father's presence: tuition, connections, a guaranteed foothold. That plan collapses on arrival.`
+    },
+    {
+      keyword: "Ella's Two-Stage Revised Motivation",
+      body: `Immediate: Stop her father and the damage he's causing.\n\nForward: Use the resulting record to earn a place on the Starliner Academy voyage to Saturn — and reach her mother.\n\nIntrepid Pro is not a club or a hobby. It's a survival strategy with a personal destination at the end of it. She's not solving mysteries because it's fun.`
+    },
+    {
+      keyword: "Ella's Sandwich Problem",
+      body: `Ella cannot make a sandwich without losing her temper. Perfectionism plus distraction plus having been genuinely well-fed by Aunt Miriam for twelve years without ever lifting a finger equals catastrophic results. Her solution is to punch it. She eats sandwiches with knuckle imprints in the bread. This is now a known thing about her. Cosplay potential: peanut butter and jelly sandwich with fist marks.\n\nThe Orb Muffin Bakery on the Intrepid produces fresh white bread — confirmed plausible. The Intrepid's rotation generates normal gravity so yeast and rising work exactly as on Earth. Resupply via space elevator covers anything they don't produce on-site.`
+    },
+    {
+      keyword: "Bas Jan Save the Cat #1 (Faith)",
+      body: `A consistently clumsy girl named Faith trips — Bas Jan catches her without hesitation, no performance, no quip. NOT Loki-style charm — just a man who reacted like a decent person without thinking about it. Whether to frame it as fatherly instinct or simple gentlemanliness is a live question.\n\nFaith is a recurring minor character, Intrepid student, notably clumsy. Ella likes her for it (fellow catastrophe in motion). The moment works because it's quiet and true — which makes it more complicated once readers know what Bas Jan did.`
+    },
+    {
+      keyword: "Ella's Temper as a Plot Problem",
+      body: `Ella blows up at the Station Authority office while trying to get them to take her seriously as a witness against her father. Her anger is real and justified — and it completely undermines her. She looks like a furious daughter with a grudge, not a credible source. Bas Jan, composed and well-regarded at station level, benefits from her losing control.\n\nThis scene should sting. It also sets up her self-control arc — getting the Authority to believe her eventually means becoming someone they can't dismiss. Same flaw that makes her sympathetic costs her the most at her most vulnerable moment.`
+    },
+  ];
+
+  function loadNotes() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || null; }
+    catch(e) { return null; }
+  }
+
+  function saveNotes(notes) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(notes));
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function padNum(n) {
+    return '#' + String(n).padStart(3, '0');
+  }
+
+  function init() {
+    let notes = loadNotes();
+    if (!notes) {
+      const now = new Date().toISOString();
+      notes = DEFAULTS.map((d, i) => ({
+        id: 'default-' + (i+1),
+        num: i + 1,
+        keyword: d.keyword,
+        body: d.body,
+        date: now,
+      }));
+      saveNotes(notes);
+    }
+    render(notes);
+  }
+
+  function render(notes) {
+    renderIndex(notes);
+    renderList(notes);
+    document.getElementById('note-count').textContent =
+      notes.length + ' note' + (notes.length !== 1 ? 's' : '');
+  }
+
+  function renderIndex(notes) {
+    const scroll = document.getElementById('index-scroll');
+    if (notes.length === 0) {
+      scroll.innerHTML = '<span style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);letter-spacing:1px;">No notes yet</span>';
+      return;
+    }
+    scroll.innerHTML = notes.map(n => `
+      <a class="index-pill" href="#note-${n.id}" onclick="highlightNote('${n.id}')">
+        <span class="index-pill-num">${padNum(n.num)}</span>
+        <span class="index-pill-label">${escHtml(n.keyword)}</span>
+      </a>
+    `).join('');
+  }
+
+  function renderList(notes) {
+    const list = document.getElementById('notes-list');
+    if (notes.length === 0) {
+      list.innerHTML = '<div class="empty-state">No notes yet. Add your first note below.</div>';
+      return;
+    }
+    list.innerHTML = notes.map(n => `
+      <div class="note-card" id="note-${n.id}" data-id="${n.id}">
+        <div class="note-card-header">
+          <div class="note-num">${padNum(n.num)}</div>
+          <div class="note-meta">
+            <div class="note-keyword">${escHtml(n.keyword)}</div>
+            <div class="note-date">${formatDate(n.date)}</div>
+          </div>
+          <div class="note-actions">
+            <button class="note-btn edit-btn" onclick="toggleEdit('${n.id}')">Edit</button>
+            <button class="note-btn delete" onclick="deleteNote('${n.id}')">Delete</button>
+          </div>
+        </div>
+        <div class="note-body">${escHtml(n.body)}</div>
+        <div class="note-edit-area">
+          <input class="edit-keyword-input" id="edit-kw-${n.id}" type="text" value="${escAttr(n.keyword)}" placeholder="Keyword label">
+          <textarea class="edit-body-textarea" id="edit-body-${n.id}" placeholder="Note text...">${escHtml(n.body)}</textarea>
+          <button class="edit-save-btn" onclick="saveEdit('${n.id}')">Save Changes</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function highlightNote(id) {
+    setTimeout(() => {
+      const card = document.getElementById('note-' + id);
+      if (!card) return;
+      card.classList.add('highlight');
+      setTimeout(() => card.classList.remove('highlight'), 1800);
+    }, 100);
+  }
+
+  function toggleEdit(id) {
+    const card = document.getElementById('note-' + id);
+    card.classList.toggle('editing');
+    if (card.classList.contains('editing')) {
+      document.getElementById('edit-kw-' + id).focus();
+    }
+  }
+
+  function saveEdit(id) {
+    const notes = loadNotes();
+    const idx = notes.findIndex(n => n.id === id);
+    if (idx === -1) return;
+    notes[idx].keyword = document.getElementById('edit-kw-' + id).value.trim() || notes[idx].keyword;
+    notes[idx].body = document.getElementById('edit-body-' + id).value;
+    saveNotes(notes);
+    render(notes);
+    // Scroll back to the card after re-render
+    setTimeout(() => {
+      const card = document.getElementById('note-' + id);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 50);
+  }
+
+  function deleteNote(id) {
+    const notes = loadNotes();
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+    if (!confirm(`Delete ${padNum(note.num)} — "${note.keyword}"?\n\nThis cannot be undone.`)) return;
+    const filtered = notes.filter(n => n.id !== id);
+    // Renumber
+    filtered.forEach((n, i) => n.num = i + 1);
+    saveNotes(filtered);
+    render(filtered);
+  }
+
+  function addNote() {
+    const keyword = document.getElementById('add-keyword').value.trim();
+    const body = document.getElementById('add-body').value.trim();
+    if (!keyword) {
+      document.getElementById('add-keyword').focus();
+      document.getElementById('add-keyword').style.borderColor = 'var(--accent-red)';
+      return;
+    }
+    if (!body) {
+      document.getElementById('add-body').focus();
+      document.getElementById('add-body').style.borderColor = 'var(--accent-red)';
+      return;
+    }
+    document.getElementById('add-keyword').style.borderColor = '';
+    document.getElementById('add-body').style.borderColor = '';
+
+    const notes = loadNotes() || [];
+    const newNote = {
+      id: 'n-' + Date.now(),
+      num: notes.length + 1,
+      keyword,
+      body,
+      date: new Date().toISOString(),
+    };
+    notes.push(newNote);
+    saveNotes(notes);
+    render(notes);
+
+    document.getElementById('add-keyword').value = '';
+    document.getElementById('add-body').value = '';
+
+    // Scroll to new note
+    setTimeout(() => {
+      const card = document.getElementById('note-' + newNote.id);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 80);
+  }
+
+  function exportAll() {
+    const notes = loadNotes() || [];
+    const blob = new Blob([JSON.stringify(notes, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ella-dekker-notes-' + new Date().toISOString().slice(0,10) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (!Array.isArray(imported)) throw new Error('Invalid format');
+        // Merge: keep existing, append any with new IDs, renumber all
+        const existing = loadNotes() || [];
+        const existingIds = new Set(existing.map(n => n.id));
+        const newNotes = imported.filter(n => !existingIds.has(n.id));
+        const merged = [...existing, ...newNotes];
+        merged.forEach((n, i) => n.num = i + 1);
+        saveNotes(merged);
+        render(merged);
+        alert('Import successful. ' + newNotes.length + ' new note(s) added.');
+      } catch(err) {
+        alert('Import failed. Please check the file is a valid JSON export from this tool.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  // Allow Cmd/Ctrl+Enter to save new note
+  document.addEventListener('keydown', function(e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      const focused = document.activeElement;
+      if (focused && (focused.id === 'add-body' || focused.id === 'add-keyword')) {
+        addNote();
+      }
+    }
+  });
+
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function escAttr(str) {
+    return String(str || '').replace(/"/g, '&quot;');
+  }
+
+  init();
+  </script>
+
+</body>
+</html>
